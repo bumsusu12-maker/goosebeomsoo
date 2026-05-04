@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>머니박스 지점별 환율 비교</title>
+<style>
+:root{
+  --bg:#f4f7fb;--surface:#fff;--surface2:#f8fbff;--text:#111827;--muted:#6b7280;
+  --line:#dfe8f2;--blue:#0878ff;--blue2:#005bd7;--cyan:#13aeb8;--cyan-bg:#e0f8fa;
+  --coral:#ff6b57;--coral-bg:#ffe9e4;--green:#10a66a;--shadow:0 12px 30px rgba(15,23,42,.08);
+  --sidebar:260px;
+}
+html[data-theme="dark"]{
+  --bg:#0b1220;--surface:#111827;--surface2:#0f172a;--text:#e5edf7;--muted:#94a3b8;
+  --line:#263245;--blue:#3b82f6;--blue2:#1d4ed8;--cyan:#22c7c9;--cyan-bg:rgba(34,199,201,.16);
+  --coral:#ff7a68;--coral-bg:rgba(255,122,104,.16);--green:#22c55e;--shadow:0 18px 36px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+.app{display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:100vh}
+.sidebar{background:var(--surface);border-right:1px solid var(--line);padding:20px 16px;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{width:132px;height:92px;background:var(--surface2);border:1px solid var(--line);border-radius:18px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow)}
+.logo img{max-width:118px;max-height:82px;object-fit:contain}.logo-fallback{color:#0878ff;font-weight:950;line-height:.9;text-align:center;font-size:21px}
+.side-title{font-size:12px;color:var(--muted);font-weight:950;margin:16px 0 10px}
+.search{width:100%;height:38px;border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:12px;padding:0 12px;margin-bottom:10px}
+.side-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+button,select,input{font-family:inherit}
+button{height:38px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);font-weight:850;cursor:pointer;padding:0 12px}
+button.primary{background:var(--blue);border-color:var(--blue);color:white}
+.branch-list{display:flex;flex-direction:column;gap:6px}
+.branch-item{display:grid;grid-template-columns:22px 1fr 24px;align-items:center;gap:8px;padding:9px 8px;border:1px solid transparent;border-radius:12px;background:var(--surface2);font-size:13px;font-weight:850;cursor:pointer;opacity:.72;transition:.15s ease}
+.branch-item input{width:16px;height:16px;accent-color:var(--blue)}.branch-item.on{border-color:rgba(8,120,255,.45);background:rgba(8,120,255,.07);opacity:1}
+.star{color:#cbd5e1;font-size:15px;text-align:center;cursor:pointer}.star.on{color:#f6b817}
+.external-tag{font-size:10px;color:var(--coral);font-weight:950;margin-left:4px}
+.side-foot{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding-top:12px;margin-top:14px}
+.selected-count{font-size:13px;color:var(--muted);margin-bottom:8px}
+.main{padding:20px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}
+.title h1{margin:0;font-size:26px;letter-spacing:-.055em}.updated{color:var(--muted);font-size:13px;margin-top:7px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.controls select,.controls button{height:40px}
+.group-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{height:40px;padding:0 18px;border:1px solid var(--line);background:var(--surface);border-radius:999px;color:var(--text);font-weight:950}.tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.alertbar{display:none;margin-bottom:14px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:16px;padding:12px 14px;color:var(--muted);font-size:13px}
+.alertbar.show{display:flex;align-items:center;justify-content:space-between;gap:12px}.alertbar b{color:var(--coral)}
+.error{display:none;margin-bottom:14px;background:var(--coral-bg);border:1px solid var(--coral);color:var(--coral);border-radius:14px;padding:12px;font-size:12px;white-space:pre-wrap}
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:17px 18px 10px}
+.cur{display:flex;align-items:center;gap:10px;min-width:0}.flag{width:46px;height:32px;background:var(--surface2);border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:0 0 auto}
+.flag img{width:100%;height:100%;object-fit:cover;display:block}.cur-name{font-weight:950;font-size:18px;letter-spacing:-.035em}.cur-sub{color:var(--muted);font-size:12px;margin-top:3px}
+.base{color:var(--muted);font-size:12px;text-align:right;line-height:1.45;white-space:nowrap}
+.best{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px 18px 12px}.best-box{border-radius:17px;padding:13px;min-height:94px;border:1px solid var(--line)}
+.best-box.buy{background:var(--cyan-bg);border-color:var(--cyan)}.best-box.sell{background:var(--coral-bg);border-color:var(--coral)}
+.best-label{font-size:12px;font-weight:900;color:var(--muted);margin-bottom:6px}.best-value{font-size:23px;font-weight:950;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+.buy .best-value{color:var(--cyan)}.sell .best-value{color:var(--coral)}.best-branch{margin-top:5px;font-size:13px;font-weight:900}
+.rank-wrap{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 13px}.rank-box{background:var(--surface2);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.rank-title{display:flex;align-items:center;justify-content:space-between;padding:10px 11px;color:var(--muted);font-size:12px;font-weight:900;border-bottom:1px solid var(--line)}
+.row{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:7px;padding:8px 10px;font-size:12px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}.no{width:22px;height:22px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:#e5e7eb;color:#64748b;font-weight:950}
+html[data-theme="dark"] .no{background:#273244;color:#94a3b8}.row:first-child.buy-row{background:var(--cyan-bg)}.row:first-child.sell-row{background:var(--coral-bg)}
+.row:first-child.buy-row .no{background:var(--cyan);color:white}.row:first-child.sell-row .no{background:var(--coral);color:white}
+.branch{font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.price{font-weight:950;font-variant-numeric:tabular-nums}.buy-price{color:var(--cyan)}.sell-price{color:var(--coral)}
+.focus-row{outline:2px solid var(--blue);outline-offset:-2px;background:rgba(8,120,255,.10)!important}.focus-row .branch{color:var(--blue);font-weight:950}
+.info-line{display:flex;gap:7px;flex-wrap:wrap;padding:0 18px 16px}.badge{font-size:11px;font-weight:900;padding:6px 8px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);color:var(--muted)}
+.badge.green{color:var(--green);border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.10)}.badge.external{color:var(--coral);border-color:rgba(255,107,87,.35);background:rgba(255,107,87,.08)}
+.detail-btn{margin-left:auto;border:1px solid var(--line);background:var(--surface2);height:28px;font-size:11px;padding:0 10px}
+.expanded{border-top:1px solid var(--line);padding:0 18px 16px;display:none}.card.open .expanded{display:block}.full-title{color:var(--muted);font-size:12px;font-weight:900;margin:12px 0 8px}
+.full-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full-list{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface2)}
+.table-section{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}.table-section.hide{display:none}
+.table-head{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;background:var(--surface2);border-bottom:1px solid var(--line)}
+.table-wrap{overflow:auto;max-height:460px}table{width:100%;min-width:1080px;border-collapse:collapse}
+th,td{padding:11px 12px;border-bottom:1px solid var(--line);font-size:12px;text-align:right;font-variant-numeric:tabular-nums}
+th{position:sticky;top:0;background:var(--surface2);color:var(--muted);z-index:1}th:first-child,th:nth-child(2),th:nth-child(3),td:first-child,td:nth-child(2),td:nth-child(3){text-align:left}
+.tag{display:inline-flex;min-width:54px;justify-content:center;border-radius:999px;padding:5px 8px;color:var(--blue);background:var(--surface2);border:1px solid var(--line);font-weight:950}.focus-cell{color:var(--blue);font-weight:950}
+@media(max-width:1180px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.main{padding:14px}.top{align-items:flex-start;flex-direction:column}.controls{width:100%}.controls select,.controls button{flex:1}.board{grid-template-columns:1fr}.best,.rank-wrap,.full-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="./moneybox-logo.png" onerror="this.style.display='none';document.querySelector('.logo-fallback').style.display='block';">
+      <div class="logo-fallback" style="display:none">MONEY<br>MAX</div>
+    </div>
+
+    <div class="side-title">지점 선택</div>
+    <input id="branchSearch" class="search" placeholder="지점 검색">
+    <div class="side-actions">
+      <button class="primary" onclick="selectAllBranches()">전체 선택</button>
+      <button onclick="clearBranches()">전체 해제</button>
+    </div>
+    <label class="branch-item" style="margin-bottom:8px">
+      <input type="checkbox" id="favoriteOnly" onchange="renderBranchList(); render();">
+      <span>즐겨찾기만 보기</span>
+      <span class="star on">★</span>
+    </label>
+    <div class="branch-list" id="branchList"></div>
+    <div class="side-foot">
+      <div class="selected-count" id="branchSummary">-</div>
+      <button style="width:100%" onclick="resetFavorites()">즐겨찾기 초기화</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div class="title">
+        <h1>머니박스 지점별 환율 비교</h1>
+        <div class="updated" id="updated">업데이트 확인 중...</div>
+      </div>
+      <div class="controls">
+        <select id="currencyFilter"><option value="ALL">전체 통화</option></select>
+        <button onclick="toggleTable()" id="tableBtn">표 보기</button>
+        <button onclick="toggleTheme()" id="themeBtn">다크모드</button>
+        <button class="primary" onclick="loadRates()">새로고침</button>
+      </div>
+    </header>
+
+    <div class="group-tabs">
+      <button class="tab active" data-group="all" onclick="setGroup('all')">전체 통화</button>
+      <button class="tab" data-group="major" onclick="setGroup('major')">주요 통화</button>
+      <button class="tab" data-group="asia" onclick="setGroup('asia')">동남아</button>
+      <button class="tab" data-group="etc" onclick="setGroup('etc')">기타통화</button>
+    </div>
+
+    <div class="alertbar" id="alertbar"><span id="alertText"></span><button onclick="toggleErrorDetail()">자세히</button></div>
+    <div class="error" id="errorBox"></div>
+
+    <section class="board" id="board"></section>
+
+    <section class="table-section hide" id="tableSection">
+      <div class="table-head"><b>상세 데이터</b><span class="updated">별표 지점 강조 적용</span></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>지점</th><th>지역</th><th>통화</th><th>살 때</th><th>팔 때</th>
+              <th>스프레드</th><th>기준율</th><th>살 때-기준</th><th>팔 때-기준</th><th>날짜</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+let rows = [];
+let latestErrors = [];
+let activeGroup = "all";
+const openCards = new Set();
+const selectedBranches = new Set();
+let favoriteBranches = new Set(JSON.parse(localStorage.getItem("moneyboxFavorites") || "[]"));
+
+const groups = {
+  all:["USD","JPY","CNY","TWD","HKD","EUR","AUD","SGD","CAD","GBP","THB","PHP","MYR","VND","IDR","CHF","NZD","AED"],
+  major:["USD","JPY","CNY","TWD","HKD","EUR"],
+  asia:["SGD","THB","PHP","MYR","VND","IDR"],
+  etc:["AUD","CAD","GBP","CHF","NZD","AED"]
+};
+const preferred = groups.all;
+const names = {
+  USD:["us","미국 달러"], JPY:["jp","일본 엔"], CNY:["cn","중국 위안"], TWD:["tw","대만 달러"], HKD:["hk","홍콩 달러"],
+  EUR:["eu","유로"], AUD:["au","호주 달러"], SGD:["sg","싱가포르 달러"], CAD:["ca","캐나다 달러"], GBP:["gb","영국 파운드"],
+  THB:["th","태국 바트"], PHP:["ph","필리핀 페소"], MYR:["my","말레이시아 링깃"], VND:["vn","베트남 동"], IDR:["id","인도네시아 루피아"],
+  CHF:["ch","스위스 프랑"], NZD:["nz","뉴질랜드 달러"], AED:["ae","UAE 디르함"]
+};
+const fmt = n => n == null || Number.isNaN(Number(n)) ? "-" : Number(n).toLocaleString(undefined,{maximumFractionDigits:4});
+const clean = n => String(n).replace("머니박스 ","");
+function flagUrl(cur){ return `https://flagcdn.com/w80/${names[cur]?.[0] || "un"}.png`; }
+function allBranches(){ return [...new Set(rows.map(r=>r.branch))]; }
+function currentCurrencies(){ return groups[activeGroup].filter(c => rows.some(r => r.currency === c)); }
+function selectedBranchOk(branch){ if(selectedBranches.has("__NONE__")) return false; return selectedBranches.size === 0 || selectedBranches.has(branch); }
+function isFocused(branch){ return favoriteBranches.has(branch); }
+function activeRows(){
+  const c = document.getElementById("currencyFilter").value;
+  return rows.filter(r => {
+    const groupOk = groups[activeGroup].includes(r.currency);
+    const currencyOk = c === "ALL" || r.currency === c;
+    return groupOk && currencyOk && selectedBranchOk(r.branch);
+  });
+}
+function updateCurrencyFilter(){
+  const cf = document.getElementById("currencyFilter");
+  const old = cf.value;
+  const cs = currentCurrencies();
+  cf.innerHTML = '<option value="ALL">전체 통화</option>' + cs.map(c=>`<option value="${c}">${c}</option>`).join("");
+  cf.value = cs.includes(old) ? old : "ALL";
+}
+function renderBranchList(){
+  const list = document.getElementById("branchList");
+  const query = document.getElementById("branchSearch").value.trim();
+  const favOnly = document.getElementById("favoriteOnly").checked;
+  let branches = allBranches();
+  if(query) branches = branches.filter(b => clean(b).includes(query));
+  if(favOnly) branches = branches.filter(b => favoriteBranches.has(b));
+  list.innerHTML = branches.map(branch => {
+    const checked = !selectedBranches.has("__NONE__") && (selectedBranches.size === 0 || selectedBranches.has(branch));
+    const fav = favoriteBranches.has(branch);
+    const type = rows.find(r=>r.branch===branch)?.type;
+    return `<label class="branch-item ${checked ? 'on':''}">
+      <input type="checkbox" value="${branch}" ${checked ? 'checked':''} onchange="onBranchToggle()">
+      <span>${clean(branch)}${type === "external" ? '<span class="external-tag">외부</span>' : ''}</span>
+      <span class="star ${fav ? 'on':''}" onclick="toggleFavorite(event,'${branch}')">★</span>
+    </label>`;
+  }).join("");
+  updateBranchSummary();
+}
+function onBranchToggle(){
+  selectedBranches.delete("__NONE__");
+  const all = allBranches();
+  const checks = [...document.querySelectorAll("#branchList input[type=checkbox]")];
+  if(selectedBranches.size === 0){ selectedBranches.clear(); all.forEach(b => selectedBranches.add(b)); }
+  checks.forEach(input => { if(input.checked) selectedBranches.add(input.value); else selectedBranches.delete(input.value); });
+  if(selectedBranches.size === all.length) selectedBranches.clear();
+  renderBranchList(); render();
+}
+function selectAllBranches(){ selectedBranches.clear(); renderBranchList(); render(); }
+function clearBranches(){ selectedBranches.clear(); selectedBranches.add("__NONE__"); document.querySelectorAll("#branchList input").forEach(i=>i.checked=false); updateBranchSummary(); render(); }
+function updateBranchSummary(){
+  const total = allBranches().length;
+  const count = selectedBranches.has("__NONE__") ? 0 : (selectedBranches.size === 0 ? total : selectedBranches.size);
+  document.getElementById("branchSummary").textContent = `선택 지점 ${count} / ${total}`;
+}
+function toggleFavorite(e, branch){
+  e.preventDefault(); e.stopPropagation();
+  if(favoriteBranches.has(branch)) favoriteBranches.delete(branch); else favoriteBranches.add(branch);
+  localStorage.setItem("moneyboxFavorites", JSON.stringify([...favoriteBranches]));
+  renderBranchList();
+  render();
+}
+function resetFavorites(){ favoriteBranches.clear(); localStorage.removeItem("moneyboxFavorites"); renderBranchList(); render(); }
+function setGroup(group){
+  activeGroup = group;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active", t.dataset.group===group));
+  updateCurrencyFilter(); render();
+}
+function bestFor(cur){
+  const list = activeRows().filter(r=>r.currency===cur);
+  const buy = [...list].filter(r=>r.buy>0).sort((a,b)=>a.buy-b.buy);
+  const sell = [...list].filter(r=>r.sell>0).sort((a,b)=>b.sell-a.sell);
+  const spread = [...list].filter(r=>r.spread>0).sort((a,b)=>a.spread-b.spread);
+  return {buy,sell,spread,list};
+}
+function rowTemplate(r,i,type){
+  const value = type === "buy" ? r.buy : r.sell;
+  const focus = isFocused(r.branch);
+  return `<div class="row ${type === "buy" ? "buy-row":"sell-row"} ${focus ? "focus-row" : ""}">
+    <div class="no">${i+1}</div>
+    <div class="branch">${clean(r.branch)}${focus ? ' <span style="font-size:10px;color:var(--blue);font-weight:950">★</span>' : ''}</div>
+    <div class="price ${type === "buy" ? "buy-price":"sell-price"}">${fmt(value)}</div>
+  </div>`;
+}
+function renderBoard(){
+  const board = document.getElementById("board");
+  const cFilter = document.getElementById("currencyFilter").value;
+  const cs = cFilter === "ALL" ? currentCurrencies().filter(c=>activeRows().some(r=>r.currency===c)) : [cFilter];
+  board.innerHTML = cs.map(cur => {
+    const data = bestFor(cur);
+    const [flag,label] = names[cur] || ["",cur];
+    const b = data.buy[0], s = data.sell[0], sp = data.spread[0];
+    const sample = rows.find(r=>r.currency===cur);
+    const open = openCards.has(cur);
+    return `<article class="card ${open ? 'open':''}">
+      <div class="card-head">
+        <div class="cur"><div class="flag"><img src="${flagUrl(cur)}"></div><div><div class="cur-name">${cur}</div><div class="cur-sub">${label}</div></div></div>
+        <div class="base">기준 ${fmt(sample?.base)}<br>${sample?.date || "-"}</div>
+      </div>
+      <div class="best">
+        <div class="best-box buy"><div class="best-label">살 때 BEST</div><div class="best-value">${b?fmt(b.buy):"-"}</div><div class="best-branch">${b?clean(b.branch):"-"}</div></div>
+        <div class="best-box sell"><div class="best-label">팔 때 BEST</div><div class="best-value">${s?fmt(s.sell):"-"}</div><div class="best-branch">${s?clean(s.branch):"-"}</div></div>
+      </div>
+      <div class="rank-wrap">
+        <div class="rank-box"><div class="rank-title"><span>살 때 TOP3</span><span>↓</span></div>${data.buy.slice(0,3).map((r,i)=>rowTemplate(r,i,"buy")).join("")}</div>
+        <div class="rank-box"><div class="rank-title"><span>팔 때 TOP3</span><span>↑</span></div>${data.sell.slice(0,3).map((r,i)=>rowTemplate(r,i,"sell")).join("")}</div>
+      </div>
+      <div class="info-line">
+        <span class="badge green">최소 스프레드 ${sp ? `${clean(sp.branch)} · ${fmt(sp.spread)}` : "-"}</span>
+        <span class="badge">${data.list.length}개 지점</span>
+        ${data.list.some(r=>r.type==="external") ? '<span class="badge external">외부 포함</span>' : ''}
+        <button class="detail-btn" onclick="toggleCard('${cur}')">${open ? '접기':'전체 보기'}</button>
+      </div>
+      <div class="expanded">
+        <div class="full-title">${cur} 전체 지점 순위</div>
+        <div class="full-grid">
+          <div class="full-list">${data.buy.map((r,i)=>rowTemplate(r,i,"buy")).join("")}</div>
+          <div class="full-list">${data.sell.map((r,i)=>rowTemplate(r,i,"sell")).join("")}</div>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+}
+function renderTable(){
+  const data = activeRows().sort((a,b)=>preferred.indexOf(a.currency)-preferred.indexOf(b.currency)||a.branch.localeCompare(b.branch,"ko"));
+  document.getElementById("tbody").innerHTML = data.map(r=>{
+    const focus = isFocused(r.branch);
+    return `<tr class="${focus ? 'focus-row' : ''}">
+    <td><b class="${focus ? 'focus-cell' : ''}">${r.branch}${focus ? ' · ★' : ''}</b></td><td>${r.area}</td><td><span class="tag">${r.currency}</span></td>
+    <td>${fmt(r.buy)}</td><td>${r.sell?fmt(r.sell):"-"}</td><td>${fmt(r.spread)}</td><td>${fmt(r.base)}</td><td>${fmt(r.buyDiff)}</td><td>${fmt(r.sellDiff)}</td><td>${r.date}</td>
+  </tr>`}).join("");
+}
+function render(){ renderBoard(); renderTable(); updateBranchSummary(); }
+async function loadRates(){
+  const updated = document.getElementById("updated");
+  const err = document.getElementById("errorBox");
+  const alertbar = document.getElementById("alertbar");
+  updated.textContent = "업데이트 확인 중...";
+  err.style.display = "none"; err.textContent = ""; alertbar.classList.remove("show");
+  try{
+    const res = await fetch("/api/rates");
+    const json = await res.json();
+    rows = (json.data || []).filter(r=>r.buy!==null || r.sell!==null);
+    latestErrors = json.errors || [];
+    updateCurrencyFilter(); renderBranchList(); render();
+    updated.textContent = `마지막 업데이트 ${json.updatedAt || "-"}`;
+    if(latestErrors.length){
+      const names = latestErrors.map(e=>e.split(":")[0].replace("머니박스 ","")).join(", ");
+      document.getElementById("alertText").innerHTML = `<b>${latestErrors.length}개 지점 업데이트 실패</b> · ${names}`;
+      alertbar.classList.add("show");
+      err.textContent = "일부 지점 수집 실패:\n" + latestErrors.join("\n");
+    }
+  }catch(e){
+    updated.textContent = "불러오기 실패";
+    err.style.display = "block"; err.textContent = e.message;
+  }
+}
+function toggleErrorDetail(){ const err=document.getElementById("errorBox"); err.style.display = err.style.display === "block" ? "none" : "block"; }
+function toggleCard(cur){ if(openCards.has(cur)) openCards.delete(cur); else openCards.add(cur); renderBoard(); }
+function toggleTheme(){
+  const html=document.documentElement, btn=document.getElementById("themeBtn");
+  if(html.dataset.theme==="dark"){html.dataset.theme="light";btn.textContent="다크모드";}else{html.dataset.theme="dark";btn.textContent="라이트모드";}
+}
+function toggleTable(){
+  const s=document.getElementById("tableSection"), b=document.getElementById("tableBtn");
+  s.classList.toggle("hide"); b.textContent=s.classList.contains("hide") ? "표 보기" : "표 숨기기";
+}
+document.getElementById("currencyFilter").addEventListener("change", render);
+document.getElementById("branchSearch").addEventListener("input", renderBranchList);
+loadRates();
+setInterval(loadRates,180000);
+</script>
+</body>
+</html>
