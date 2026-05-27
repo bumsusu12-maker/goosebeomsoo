@@ -3,7 +3,6 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 const API_URL = "https://cems.moneybox.or.kr/api/moneybox.php";
 
 const TARGET = [
@@ -41,6 +40,34 @@ const branches = [
 
 app.use(express.static(__dirname));
 
+
+function isBlockedText(text) {
+  const s = String(text || "").replace(/\s+/g, "");
+  return ["예약불가","예약중지","일시중단","거래중지","점검중","환율변동","변동성이심","준비중","중단"].some(k => s.includes(k));
+}
+
+function normalizeCurrencyUnit(currency, value) {
+  if (value === null || value === undefined) return null;
+  let n = Number(value);
+  if (!Number.isFinite(n)) return null;
+  if (["JPY", "VND", "IDR"].includes(currency) && n > 0 && n < 100) n = n * 100;
+  return n;
+}
+
+
+function normalizeBySource(branch, currency, value) {
+  if (value === null || value === undefined) return null;
+  let n = Number(value);
+  if (!Number.isFinite(n)) return null;
+
+  // 제일환전 VND/IDR은 530, 830처럼 100배 단위로 들어오는 케이스가 있어 별도 보정.
+  if (branch === "제일환전" && ["VND", "IDR"].includes(currency) && n >= 100) {
+    return n / 100;
+  }
+
+  return n;
+}
+
 function num(v) {
   const n = Number(String(v ?? "").replace(/,/g, "").trim());
   return Number.isFinite(n) ? n : null;
@@ -60,10 +87,18 @@ async function getBranch(branch) {
   const payload = typeof response.data === "string" ? JSON.parse(response.data) : response.data;
   if (!payload || !Array.isArray(payload.data)) throw new Error("데이터 형식 오류");
   return payload.data.filter(x => TARGET.includes(x.crc)).map(x => {
-    const buy = num(x.buy), sell = num(x.sell), base = num(x.base || x.bas);
+    let buy = num(x.buy), sell = num(x.sell), base = num(x.base || x.bas);
+    const blocked = isBlockedText(JSON.stringify(x));
+    buy = normalizeCurrencyUnit(x.crc, buy);
+    sell = normalizeCurrencyUnit(x.crc, sell);
+    base = normalizeCurrencyUnit(x.crc, base);
     return {
       branch: branch.name, area: branch.area, currency: x.crc,
-      buy, sell, base,
+      buy: blocked ? null : buy,
+      sell: blocked ? null : sell,
+      base: blocked ? null : base,
+      blocked,
+      status: blocked ? "예약중지" : "정상",
       spread: buy && sell ? buy - sell : null,
       buyDiff: buy && base ? buy - base : null,
       sellDiff: sell && base ? sell - base : null,
@@ -87,11 +122,14 @@ async function getJeil() {
     let sell = num($(tds[4]).text());
     if (!TARGET.includes(currency) || buy == null || sell == null) return;
 
-    if (currency === "JPY" && buy > 100) buy = buy / 100;
-    if (currency === "JPY" && sell > 100) sell = sell / 100;
+    const blocked = isBlockedText($(el).text());
+    buy = normalizeCurrencyUnit(currency, buy);
+    sell = normalizeCurrencyUnit(currency, sell);
+    buy = normalizeBySource("제일환전", currency, buy);
+    sell = normalizeBySource("제일환전", currency, sell);
 
     data.push({
-      branch:"제일환전", area:"명동", currency, buy, sell, base:null,
+      branch:"제일환전", area:"명동", currency, buy: blocked ? null : buy, sell: blocked ? null : sell, base:null, blocked, status: blocked ? "예약중지" : "정상",
       spread: buy - sell, buyDiff:null, sellDiff:null,
       date: dateText, source:url, type:"external"
     });
@@ -272,6 +310,7 @@ async function getInvestingMap() {
 
 app.get('/api/markets', async (req,res)=>{
   const errors = [];
+  const sourceMode = req.query.source === "investing" ? "investing" : "tradingview";
   async function safe(name, fn) {
     try { return await fn(); } catch(e) { errors.push(name + ": " + e.message); return null; }
   }
@@ -319,9 +358,9 @@ app.get('/api/markets', async (req,res)=>{
   const tvJpykrw = tvJpyRaw?.price ? { ...tvJpyRaw, price: tvJpyRaw.price * 100, source: `${tvJpyRaw.source} ×100` } : null;
   const tvUsdjpy = firstValid(tv["FX:USDJPY"]);
 
-  const usdkrw = firstValid(investing.usdkrw, tvUsdkrw);
-  const jpykrw = firstValid(investing.jpykrw, tvJpykrw);
-  const usdjpy = firstValid(investing.usdjpy, tvUsdjpy);
+  const usdkrw = sourceMode === "investing" ? firstValid(investing.usdkrw, tvUsdkrw) : firstValid(tvUsdkrw, investing.usdkrw);
+  const jpykrw = sourceMode === "investing" ? firstValid(investing.jpykrw, tvJpykrw) : firstValid(tvJpykrw, investing.jpykrw);
+  const usdjpy = sourceMode === "investing" ? firstValid(investing.usdjpy, tvUsdjpy) : firstValid(tvUsdjpy, investing.usdjpy);
 
   const wti = firstValid(tv["NYMEX:CL1!"], tv["TVC:USOIL"]);
   const dxy = firstValid(tv["TVC:DXY"]);
@@ -389,7 +428,8 @@ app.get('/api/markets', async (req,res)=>{
   res.json({
     success: true,
     updatedAt: new Date().toLocaleString("ko-KR", { timeZone:"Asia/Seoul" }),
-    source: "Investing priority + TradingView fallback + Upbit + Binance",
+    source: sourceMode === "investing" ? "Investing priority + TradingView fallback + Upbit + Binance" : "TradingView priority + Investing fallback + Upbit + Binance",
+    sourceMode,
     indicators: {
       usdkrw, jpykrw, usdjpy, usdt,
       wti, dxy, kospi, vix, nasdaq, sp500, us10y,
@@ -400,4 +440,17 @@ app.get('/api/markets', async (req,res)=>{
   });
 });
 
-app.listen(PORT, () => console.log("실행 완료: http://localhost:" + PORT));
+
+
+// Restore V14.7 server start
+
+// V15.5.1 server start
+
+// V15.8 stable UI fix server start
+
+// V15.15 independent branch modal server start
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`MoneyMax V15.15 running on http://localhost:${PORT}`);
+});

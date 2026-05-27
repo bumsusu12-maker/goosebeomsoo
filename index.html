@@ -546,6 +546,351 @@ html[data-theme="dark"] .admin-settings-btn{
   }
 }
 
+
+/* V14.2 polish: dark scrollbar + stronger realtime feedback */
+html[data-theme="dark"] ::-webkit-scrollbar{width:10px;height:10px}
+html[data-theme="dark"] ::-webkit-scrollbar-track{background:#08111f}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#1f2a44;border-radius:999px;border:2px solid #08111f}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover{background:#2f436d}
+html[data-theme="dark"]{scrollbar-color:#1f2a44 #08111f;scrollbar-width:thin}
+.market-value.value-bump,.fx-ref-number.value-bump{animation:valueBump .55s ease}
+@keyframes valueBump{0%{transform:scale(1);filter:brightness(1)}35%{transform:scale(1.045);filter:brightness(1.35)}100%{transform:scale(1);filter:brightness(1)}}
+.market-tile.flash-up,.fx-ref-box.flash-up{box-shadow:0 0 0 2px rgba(255,77,79,.22),0 0 24px rgba(255,77,79,.16)}
+.market-tile.flash-down,.fx-ref-box.flash-down{box-shadow:0 0 0 2px rgba(22,119,255,.22),0 0 24px rgba(22,119,255,.16)}
+.market-sub.bad-data{color:#f59e0b!important}
+.fx-ref-change{margin-top:5px;font-size:12px;font-weight:950}
+.fx-ref-source{margin-top:3px;font-size:10px;color:var(--muted);font-weight:850}
+.fx-ref-up{color:#ff4d4f}
+.fx-ref-down{color:#1677ff}
+.fx-ref-flat{color:var(--muted)}
+
+
+/* V14.3 ops fix */
+.blocked-badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 8px;border-radius:999px;background:rgba(255,77,79,.14);color:#ff4d4f;border:1px solid rgba(255,77,79,.35);font-size:11px;font-weight:950}
+.blocked-row{opacity:.62;filter:saturate(.75)}
+.blocked-text{color:#ff4d4f;font-weight:950}
+.unit-note{font-size:10px;color:var(--muted);font-weight:850;margin-left:4px}
+
+
+/* V14.5 source mode + readability */
+.source-status-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:950;margin:4px 0 8px}
+.overview-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:8px 0 12px}
+.overview-mini{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 14px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+.overview-mini-label{font-size:11px;color:var(--muted);font-weight:950}
+.overview-mini-value{margin-top:5px;font-size:22px;font-weight:1000;font-variant-numeric:tabular-nums}
+.overview-mini-sub{margin-top:3px;font-size:11px;font-weight:950}
+html[data-theme="dark"] .source-status-pill,html[data-theme="dark"] .overview-mini{background:#0f172a;border-color:#263245}
+@media(max-width:1180px){.overview-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.overview-strip{grid-template-columns:1fr}}
+
+
+/* V14.6 clean overview */
+.market-panel .market-mini{display:none!important}
+.source-status-pill{width:max-content}
+.side-section .side-section-body{display:none}
+.side-section.open .side-section-body{display:block!important}
+.side-section.open .arrow{transform:rotate(0deg)}
+.side-section:not(.open) .arrow{transform:rotate(-90deg)}
+.currency-card .pill,.card-footer .pill,.spread-badge,.branch-count-badge,.external-badge,.meta-badge,.card-badges{display:none!important}
+.card-footer,.currency-card footer{min-height:0!important;padding-top:0!important}
+.overview-strip{margin-top:10px}
+.overview-mini{min-height:76px}
+
+
+/* V14.7 clean fix */
+.market-panel .market-mini{display:none!important}
+.source-status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:11px;
+  font-weight:950;
+  width:max-content;
+}
+.overview-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:8px 0 10px}
+.overview-mini{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:12px 14px;min-height:78px}
+.overview-mini-label{font-size:11px;color:var(--muted);font-weight:950}
+.overview-mini-value{margin-top:5px;font-size:22px;font-weight:1000;font-variant-numeric:tabular-nums}
+.overview-mini-sub{margin-top:3px;font-size:11px;font-weight:950}
+.overview-mini-time{margin-top:2px;font-size:10px;color:var(--muted);font-weight:850}
+.detail-btn,.mini-view-btn{
+  width:30px!important;
+  height:30px!important;
+  padding:0!important;
+  border-radius:999px!important;
+  font-size:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.detail-btn::after,.mini-view-btn::after{
+  content:"▽";
+  font-size:14px;
+  font-weight:1000;
+}
+.currency-card .pill,
+.card-footer .pill,
+.spread-badge,
+.branch-count-badge,
+.external-badge,
+.meta-badge,
+.card-badges,
+.noisy-badge{
+  display:none!important;
+}
+.card-footer,.currency-card footer{
+  min-height:0!important;
+  padding-top:0!important;
+}
+html[data-theme="dark"] .source-status-pill,
+html[data-theme="dark"] .overview-mini{
+  background:#0f172a;
+  border-color:#263245;
+}
+@media(max-width:1180px){.overview-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.overview-strip{grid-template-columns:1fr}}
+
+
+/* V15.5 minimal restore */
+#currencyFilter,
+#tableBtn{
+  display:none!important;
+}
+#topBranchBtn{
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--text);
+  height:40px;
+  border-radius:12px;
+  padding:0 13px;
+  font-weight:950;
+}
+.source-status-pill{
+  display:block!important;
+  width:max-content!important;
+  padding:0!important;
+  margin:4px 0 12px!important;
+  border:0!important;
+  background:transparent!important;
+  color:var(--muted)!important;
+  font-size:12px!important;
+  font-weight:900!important;
+}
+.overview-mini-time{
+  display:none!important;
+}
+.overview-mini{
+  min-height:76px!important;
+}
+.card{
+  cursor:pointer;
+  transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+}
+.card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(13,124,255,.30);
+  box-shadow:0 16px 34px rgba(15,23,42,.12);
+}
+.card::after{
+  content:"↗";
+  position:absolute;
+  right:14px;
+  top:14px;
+  width:24px;
+  height:24px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:1000;
+  color:var(--muted);
+  background:var(--surface2);
+  border:1px solid var(--line);
+  opacity:0;
+  transition:opacity .14s ease;
+}
+.card:hover::after{
+  opacity:1;
+}
+.info-line{
+  display:none!important;
+}
+.detail-btn,
+.mini-view-btn,
+.badge,
+.external,
+.external-tag{
+  display:none!important;
+}
+html[data-theme="dark"] .card:hover{
+  box-shadow:0 16px 34px rgba(0,0,0,.35);
+  border-color:rgba(59,130,246,.38);
+}
+html[data-theme="dark"] .card::after,
+html[data-theme="dark"] #topBranchBtn{
+  background:#0f172a;
+  border-color:#263245;
+}
+
+
+/* V15.8 stable UI fix */
+.source-status-pill{
+  display:block!important;
+  width:max-content!important;
+  padding:0!important;
+  margin:4px 0 12px!important;
+  border:0!important;
+  background:transparent!important;
+  color:var(--muted)!important;
+  font-size:12px!important;
+  font-weight:900!important;
+}
+.overview-mini-time{
+  display:none!important;
+}
+
+/* subtle hover only */
+.card,
+.currency-card{
+  position:relative;
+  transition:border-color .14s ease, box-shadow .14s ease, background .14s ease!important;
+}
+.card:hover,
+.currency-card:hover{
+  transform:none!important;
+  border-color:rgba(8,120,255,.24)!important;
+  box-shadow:0 10px 24px rgba(15,23,42,.075)!important;
+}
+
+/* single hover mark at bottom-right */
+.card::after,
+.currency-card::after{
+  content:"›";
+  position:absolute;
+  right:14px;
+  bottom:14px;
+  top:auto!important;
+  width:22px;
+  height:22px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  line-height:1;
+  font-weight:1000;
+  color:var(--muted);
+  background:var(--surface2);
+  border:1px solid var(--line);
+  opacity:0;
+  transition:opacity .14s ease;
+  pointer-events:none;
+}
+.card:hover::after,
+.currency-card:hover::after{
+  opacity:.78;
+}
+
+/* remove noisy arrows/buttons/badges */
+.rank-title span:last-child{
+  display:none!important;
+}
+.detail-btn,
+.mini-view-btn,
+.card button.detail-btn,
+.currency-card button.detail-btn,
+.card .detail-btn,
+.currency-card .detail-btn,
+.card .mini-view-btn,
+.currency-card .mini-view-btn{
+  display:none!important;
+}
+.info-line,
+.card .pill,
+.currency-card .pill,
+.card-footer .pill,
+.spread-badge,
+.branch-count-badge,
+.external-badge,
+.meta-badge,
+.card-badges,
+.noisy-badge{
+  display:none!important;
+}
+.card-footer,
+.currency-card footer{
+  display:none!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+}
+
+/* refresh UX */
+button.refresh-loading{
+  opacity:.72;
+  pointer-events:none;
+}
+button.refresh-loading::after{
+  content:" · 업데이트 중";
+  font-size:11px;
+  font-weight:900;
+}
+button.refresh-ok::after{
+  content:" · 완료";
+  font-size:11px;
+  font-weight:900;
+}
+
+.market-value,.overview-mini-value,.best-value,.rate-value{
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;
+}
+
+html[data-theme="dark"] .card:hover,
+html[data-theme="dark"] .currency-card:hover{
+  box-shadow:0 10px 24px rgba(0,0,0,.28)!important;
+  border-color:rgba(59,130,246,.30)!important;
+}
+html[data-theme="dark"] .card::after,
+html[data-theme="dark"] .currency-card::after{
+  background:#0f172a;
+  border-color:#263245;
+}
+
+
+/* V15.15 independent branch modal */
+.sidebar .side-section[data-section="branches"],
+.sidebar #sec-branches{display:none!important;}
+#topBranchBtn{display:inline-flex!important;align-items:center;justify-content:center;height:40px;border-radius:12px;padding:0 13px;font-weight:950;background:var(--surface);border:1px solid var(--line);color:var(--text);}
+.mm-branch-backdrop{display:none;position:fixed;inset:0;z-index:10000;background:rgba(15,23,42,.32);backdrop-filter:blur(2px);}
+.mm-branch-modal{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10001;width:min(960px, calc(100vw - 56px));max-height:72vh;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 56px rgba(15,23,42,.26);}
+.mm-branch-backdrop.show,.mm-branch-modal.show{display:block;}
+.mm-branch-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);}
+.mm-branch-head h3{margin:0;font-size:16px;font-weight:1000;}
+.mm-branch-close{width:32px;height:32px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);color:var(--text);font-weight:1000;}
+.mm-branch-controls{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);}
+.mm-branch-controls button,.mm-branch-fav{height:34px;border-radius:10px;font-size:12px;font-weight:950;}
+.mm-branch-fav{display:flex;align-items:center;gap:7px;padding:0 12px;background:var(--surface2);border:1px solid var(--line);white-space:nowrap;}
+.mm-branch-body{padding:12px 16px 14px;max-height:calc(72vh - 126px);overflow:auto;}
+.mm-branch-grid{display:grid;grid-template-columns:1.18fr .72fr .72fr;gap:10px;}
+.mm-region-card{border:1px solid #8fb8ff;border-radius:14px;overflow:hidden;background:var(--surface);}
+.mm-region-title{text-align:center;color:var(--blue);font-size:20px;line-height:1;font-weight:1000;padding:13px 8px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(13,124,255,.06),transparent);}
+.mm-branch-row{display:flex;align-items:center;gap:8px;min-height:34px;padding:8px 11px;border-bottom:1px solid var(--line);font-size:13px;font-weight:900;}
+.mm-branch-row:last-child{border-bottom:0;}
+.mm-branch-row input{width:15px;height:15px;accent-color:var(--blue);}
+.mm-star{margin-left:auto;color:#cbd5e1;font-size:15px;cursor:pointer;user-select:none;}
+.mm-star.on{color:#ffc43d;}
+.mm-branch-summary{padding:0 16px 12px;color:var(--muted);font-size:11px;font-weight:900;}
+html[data-theme="dark"] #topBranchBtn,html[data-theme="dark"] .mm-branch-modal,html[data-theme="dark"] .mm-branch-close,html[data-theme="dark"] .mm-branch-fav,html[data-theme="dark"] .mm-region-card{background:#0f172a!important;border-color:#263245!important;}
+html[data-theme="dark"] .mm-region-title{background:linear-gradient(180deg,rgba(59,130,246,.12),transparent);}
+@media(max-width:900px){.mm-branch-modal{width:calc(100vw - 28px);max-height:82vh}.mm-branch-controls{grid-template-columns:1fr 1fr}.mm-branch-fav{grid-column:1 / -1}.mm-branch-body{max-height:calc(82vh - 166px)}.mm-branch-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -622,6 +967,7 @@ html[data-theme="dark"] .admin-settings-btn{
       <div class="controls">
         <select id="currencyFilter"><option value="ALL">전체 통화</option></select>
         <button onclick="toggleTable()" id="tableBtn">표 보기</button>
+        <button id="topBranchBtn" onclick="openIndependentBranchModal()">지점 선택</button>
         <button onclick="toggleTheme()" id="themeBtn">다크모드</button>
         <button class="primary" onclick="loadRates()">새로고침</button>
       <button class="admin-settings-btn" id="adminSettingsBtn" onclick="openAdminSettings()">설정</button>
@@ -634,8 +980,15 @@ html[data-theme="dark"] .admin-settings-btn{
       <button class="tab" data-group="asia" onclick="setGroup('asia')">동남아</button>
       <button class="tab" data-group="etc" onclick="setGroup('etc')">기타통화</button>
     </div>
-<section class="market-panel">
-      <div class="ad-slot" id="topAdSlot">Google AdSense 광고 영역</div><div class="live-note">Investing 우선 · TradingView 보조 · 원엔은 100엔 기준 표시</div>
+<div class="source-status-pill" id="sourceStatusPill">기준 소스: -</div>
+    <div class="overview-strip" id="overviewStrip">
+      <div class="overview-mini"><div class="overview-mini-label">USD/KRW 원달러</div><div class="overview-mini-value" id="ov-usdkrw">-</div><div class="overview-mini-sub" id="ov-usdkrw-sub">-</div><div class="overview-mini-time" id="ov-usdkrw-time">-</div></div>
+      <div class="overview-mini"><div class="overview-mini-label">JPY/KRW 원엔</div><div class="overview-mini-value" id="ov-jpykrw">-</div><div class="overview-mini-sub" id="ov-jpykrw-sub">-</div><div class="overview-mini-time" id="ov-jpykrw-time">-</div></div>
+      <div class="overview-mini"><div class="overview-mini-label">USD/JPY 달러엔</div><div class="overview-mini-value" id="ov-usdjpy">-</div><div class="overview-mini-sub" id="ov-usdjpy-sub">-</div><div class="overview-mini-time" id="ov-usdjpy-time">-</div></div>
+      <div class="overview-mini"><div class="overview-mini-label">USDT/KRW 테더</div><div class="overview-mini-value" id="ov-usdt">-</div><div class="overview-mini-sub" id="ov-usdt-sub">-</div><div class="overview-mini-time" id="ov-usdt-time">-</div></div>
+    </div>
+    <section class="market-panel">
+      <div class="ad-slot" id="topAdSlot">Google AdSense 광고 영역</div>
       <div class="market-mini">
         <div class="market-tile" data-indicator-card="usdkrw"><div class="market-title">🇰🇷🇺🇸 원달러</div><div class="market-value" id="m-usdkrw">-</div><div class="market-sub" id="m-usdkrw-sub">TradingView</div></div>
         <div class="market-tile" data-indicator-card="jpykrw"><div class="market-title">🇰🇷🇯🇵 원엔</div><div class="market-value" id="m-jpykrw">-</div><div class="market-sub" id="m-jpykrw-sub">TradingView</div></div>
@@ -858,10 +1211,10 @@ function renderBoard(){
     const b = data.buy[0], s = data.sell[0], sp = data.spread[0];
     const sample = rows.find(r=>r.currency===cur);
     const open = openCards.has(cur);
-    return `<article class="card ${open ? 'open':''}">
+    return `<article class="card ${open ? 'open':''}" onclick="toggleCard(\'${cur}\')">
       <div class="card-head">
         <div class="cur"><div class="flag"><img src="${flagUrl(cur)}"></div><div><div class="cur-name">${cur}</div><div class="cur-sub">${label}</div></div></div>
-        <div class="base">기준 ${fmt(sample?.base)}<br>${sample?.date || "-"}</div>
+        <div class="base">기준 ${fmt(sample?.base)}</div>
       </div>
       <div class="best">
         <div class="best-box buy"><div class="best-label">살 때 BEST</div><div class="best-value">${b?fmt(b.buy):"-"}</div><div class="best-branch">${b?clean(b.branch):"-"}</div></div>
@@ -870,12 +1223,6 @@ function renderBoard(){
       <div class="rank-wrap">
         <div class="rank-box"><div class="rank-title"><span>살 때 TOP3</span><span>↓</span></div>${data.buy.slice(0,3).map((r,i)=>rowTemplate(r,i,"buy")).join("")}</div>
         <div class="rank-box"><div class="rank-title"><span>팔 때 TOP3</span><span>↑</span></div>${data.sell.slice(0,3).map((r,i)=>rowTemplate(r,i,"sell")).join("")}</div>
-      </div>
-      <div class="info-line">
-        <span class="badge green">최소 스프레드 ${sp ? `${clean(sp.branch)} · ${fmt(sp.spread)}` : "-"}</span>
-        <span class="badge">${data.list.length}개 지점</span>
-        ${data.list.some(r=>r.type==="external") ? '<span class="badge external">외부 포함</span>' : ''}
-        <button class="detail-btn" onclick="toggleCard('${cur}')">${open ? '접기':'전체 보기'}</button>
       </div>
       <div class="expanded">
         <div class="full-title">${cur} 전체 지점 순위</div>
@@ -917,8 +1264,8 @@ async function loadRates(){
       err.textContent = "일부 지점 수집 실패:\n" + latestErrors.join("\n");
     }
   }catch(e){
-    updated.textContent = "불러오기 실패";
-    err.style.display = "block"; err.textContent = e.message;
+    updated.textContent = "일부 데이터 수집 지연";
+    err.style.display = "block"; err.textContent = "데이터 수집이 지연되고 있습니다. 잠시 후 새로고침해주세요.";
   }
 }
 function toggleErrorDetail(){ const err=document.getElementById("errorBox"); err.style.display = err.style.display === "block" ? "none" : "block"; }
@@ -968,22 +1315,27 @@ function paintChange(el, value, reverse=false){
 }
 async function loadMarkets(){
   try{
-    const res=await fetch("/api/markets");
+    const res=await fetch(`/api/markets?source=${getSourceModeV145()}`);
     const json=await res.json();
     const m=json.indicators||{};
+    updateSourceStatusV145(json);
+    updateSourceStatusV146(json);
+    bindOverviewV145(m);
     bindReferenceFxV138(m);
+    bindReferenceFxV142(m);
     bindReferenceFxV139(m);
-    setMarketValue("usdkrw",m.usdkrw,2);
-    setMarketValue("jpykrw",m.jpykrw,4);
-    setMarketValue("usdjpy",m.usdjpy,3);
-    setMarketValue("usdt",m.usdt,2);
-    setMarketValue("wti",m.wti,2);
-    setMarketValue("dxy",m.dxy,2);
-    setMarketValue("kospi",m.kospi,2);
-    setMarketValue("vix",m.vix,2);
-    setMarketValue("nasdaq",m.nasdaq,2);
-    setMarketValue("sp500",m.sp500,2);
-    setMarketValue("us10y",m.us10y,3,"%");
+    bindReferenceFxV142(m);
+    v142SetMarketValue("usdkrw",m.usdkrw,2);
+    v142SetMarketValue("jpykrw",m.jpykrw,4);
+    v142SetMarketValue("usdjpy",m.usdjpy,3);
+    v142SetMarketValue("usdt",m.usdt,2);
+    v142SetMarketValue("wti",m.wti,2);
+    v142SetMarketValue("dxy",m.dxy,2);
+    v142SetMarketValue("kospi",m.kospi,2);
+    v142SetMarketValue("vix",m.vix,2);
+    v142SetMarketValue("nasdaq",m.nasdaq,2);
+    v142SetMarketValue("sp500",m.sp500,2);
+    v142SetMarketValue("us10y",m.us10y,3,"%");
     const k=m.kimchi||{};
     const premium=k.premium;
     const kimchiEl=document.getElementById("m-kimchi");
@@ -1007,7 +1359,7 @@ function toggleCharts(){
 updateThemeLogo();
 
 
-function setMarketValue(key, data, digits=2, suffix=""){
+function v142SetMarketValue(key, data, digits=2, suffix=""){
   const valueEl = document.getElementById(`m-${key}`);
   const subEl = document.getElementById(`m-${key}-sub`);
   if(!valueEl || !subEl) return;
@@ -1089,7 +1441,7 @@ function initV13Settings(){
     input.onchange=()=>{saveChartSettingsV13();applyChartVisibilityV13();};
   });
 }
-function setMarketValueV13(key,data,digits=2,suffix=""){
+function v142SetMarketValue(key,data,digits=2,suffix=""){
   const valueEl=document.getElementById(`m-${key}`);
   const subEl=document.getElementById(`m-${key}-sub`);
   const tile=document.querySelector(`[data-indicator-card="${key}"]`);
@@ -1136,22 +1488,24 @@ function playSoftAlert(){
 }
 async function loadMarkets(){
   try{
-    const res=await fetch("/api/markets");
+    const res=await fetch(`/api/markets?source=${getSourceModeV145()}`);
     const json=await res.json();
     const m=json.indicators||{};
     bindReferenceFxV138(m);
+    bindReferenceFxV142(m);
     bindReferenceFxV139(m);
-    setMarketValueV13("usdkrw",m.usdkrw,2);
-    setMarketValueV13("jpykrw",m.jpykrw,4);
-    setMarketValueV13("usdjpy",m.usdjpy,3);
-    setMarketValueV13("usdt",m.usdt,2);
-    setMarketValueV13("wti",m.wti,2);
-    setMarketValueV13("dxy",m.dxy,2);
-    setMarketValueV13("kospi",m.kospi,2);
-    setMarketValueV13("vix",m.vix,2);
-    setMarketValueV13("nasdaq",m.nasdaq,2);
-    setMarketValueV13("sp500",m.sp500,2);
-    setMarketValueV13("us10y",m.us10y,3,"%");
+    bindReferenceFxV142(m);
+    v142SetMarketValue("usdkrw",m.usdkrw,2);
+    v142SetMarketValue("jpykrw",m.jpykrw,4);
+    v142SetMarketValue("usdjpy",m.usdjpy,3);
+    v142SetMarketValue("usdt",m.usdt,2);
+    v142SetMarketValue("wti",m.wti,2);
+    v142SetMarketValue("dxy",m.dxy,2);
+    v142SetMarketValue("kospi",m.kospi,2);
+    v142SetMarketValue("vix",m.vix,2);
+    v142SetMarketValue("nasdaq",m.nasdaq,2);
+    v142SetMarketValue("sp500",m.sp500,2);
+    v142SetMarketValue("us10y",m.us10y,3,"%");
 
     const k=m.kimchi||{};
     const premium=k.premium;
@@ -1298,7 +1652,8 @@ const ADMIN_DEFAULTS = {
   alertThreshold: "3",
   refreshInterval: "10000",
   adsEnabled: "off",
-  defaultTheme: "system"
+  defaultTheme: "system",
+  sourceMode: "tradingview"
 };
 let marketRefreshTimerV14 = null;
 
@@ -1323,14 +1678,14 @@ function closeAdminSettings(){
 }
 function syncAdminForm(){
   const s = getAdminSettings();
-  ["alertThreshold","refreshInterval","adsEnabled","defaultTheme"].forEach(name => {
+  ["sourceMode","alertThreshold","refreshInterval","adsEnabled","defaultTheme"].forEach(name => {
     const input = document.querySelector(`input[name="${name}"][value="${s[name]}"]`);
     if(input) input.checked = true;
   });
 }
 function readAdminForm(){
   const current = getAdminSettings();
-  ["alertThreshold","refreshInterval","adsEnabled","defaultTheme"].forEach(name => {
+  ["sourceMode","alertThreshold","refreshInterval","adsEnabled","defaultTheme"].forEach(name => {
     const checked = document.querySelector(`input[name="${name}"]:checked`);
     if(checked) current[name] = checked.value;
   });
@@ -1340,6 +1695,7 @@ function saveAdminSettings(){
   const settings = readAdminForm();
   setAdminSettings(settings);
   applyAdminSettings();
+  if(typeof loadMarkets==='function') loadMarkets();
   closeAdminSettings();
 }
 function resetAdminSettings(){
@@ -1414,6 +1770,304 @@ if(typeof V13_ALERT_RULES !== "undefined"){
 
 applyAdminSettings();
 
+
+/* V14.2 stable change + flash polish */
+function v142FormatPct(change){
+  if(change == null || Number.isNaN(Number(change))) return "-";
+  const v = Number(change);
+  const sign = v > 0 ? "+" : "";
+  return `${sign}${v.toFixed(2)}%`;
+}
+function v142PaintChange(el, value){
+  if(!el) return;
+  el.classList.remove("market-red","market-blue","market-neutral","bad-data");
+  if(value == null || Number.isNaN(Number(value))){
+    el.textContent = "-";
+    el.classList.add("market-neutral");
+    return;
+  }
+  const v = Number(value);
+  el.classList.add(v > 0 ? "market-red" : v < 0 ? "market-blue" : "market-neutral");
+}
+function v142Bump(el){
+  if(!el) return;
+  el.classList.remove("value-bump");
+  void el.offsetWidth;
+  el.classList.add("value-bump");
+}
+function v142SetMarketValue(key, data, digits=2, suffix=""){
+  const valueEl = document.getElementById(`m-${key}`);
+  const subEl = document.getElementById(`m-${key}-sub`);
+  const tile = document.querySelector(`[data-indicator-card="${key}"]`);
+  if(!valueEl || !subEl) return;
+  const price = data?.price == null ? null : Number(data.price);
+  const oldText = valueEl.textContent;
+  valueEl.textContent = price == null || Number.isNaN(price) ? "-" : `${fmtMarket(price, digits)}${suffix}`;
+  if(oldText !== valueEl.textContent) v142Bump(valueEl);
+  const change = data?.changePct;
+  subEl.textContent = v142FormatPct(change);
+  v142PaintChange(subEl, change);
+  if(tile && price != null && typeof lastMarketValues !== "undefined" && lastMarketValues[key] != null){
+    const diff = price - Number(lastMarketValues[key]);
+    tile.classList.remove("flash-up","flash-down","warning");
+    void tile.offsetWidth;
+    if(diff > 0) tile.classList.add("flash-up");
+    if(diff < 0) tile.classList.add("flash-down");
+    const threshold = typeof getAlertThresholdV14 === "function" ? getAlertThresholdV14(key) : (typeof V13_ALERT_RULES !== "undefined" ? V13_ALERT_RULES[key] : null);
+    const now = Date.now();
+    const lastAlert = (typeof lastMarketAlertAt !== "undefined" && lastMarketAlertAt[key]) ? lastMarketAlertAt[key] : 0;
+    if(threshold && Math.abs(diff) >= threshold && now - lastAlert > 180000){
+      tile.classList.add("warning");
+      if(typeof lastMarketAlertAt !== "undefined"){
+        lastMarketAlertAt[key] = now;
+        saveJson("moneymaxLastMarketAlertAt", lastMarketAlertAt);
+      }
+      if(typeof playSoftAlert === "function") playSoftAlert();
+    }
+  }
+  if(price != null && typeof lastMarketValues !== "undefined"){
+    lastMarketValues[key] = price;
+    saveJson("moneymaxLastMarketValues", lastMarketValues);
+  }
+}
+function v142SetReferenceFx(key, data, digits=2){
+  const priceEl = document.getElementById(`r-${key}`);
+  const changeEl = document.getElementById(`r-${key}-change`);
+  const sourceEl = document.getElementById(`r-${key}-source`);
+  const card = document.querySelector(`[data-ref-card="${key}"]`);
+  if(!priceEl) return;
+  const price = data?.price == null ? null : Number(data.price);
+  const oldText = priceEl.textContent;
+  priceEl.textContent = price == null || Number.isNaN(price) ? "-" : price.toLocaleString(undefined,{maximumFractionDigits:digits});
+  if(oldText !== priceEl.textContent) v142Bump(priceEl);
+  if(changeEl){
+    const cp = data?.changePct == null ? null : Number(data.changePct);
+    changeEl.textContent = v142FormatPct(cp);
+    changeEl.classList.remove("fx-ref-up","fx-ref-down","fx-ref-flat");
+    changeEl.classList.add(cp == null || Number.isNaN(cp) ? "fx-ref-flat" : cp > 0 ? "fx-ref-up" : cp < 0 ? "fx-ref-down" : "fx-ref-flat");
+  }
+  if(sourceEl) sourceEl.textContent = data?.source || "-";
+  const last = JSON.parse(localStorage.getItem("moneymaxV142RefLast") || "{}");
+  const storeKey = `ref_${key}`;
+  if(card && price != null && last[storeKey] != null){
+    const diff = price - Number(last[storeKey]);
+    card.classList.remove("flash-up","flash-down");
+    void card.offsetWidth;
+    if(diff > 0) card.classList.add("flash-up");
+    if(diff < 0) card.classList.add("flash-down");
+  }
+  if(price != null){
+    last[storeKey] = price;
+    localStorage.setItem("moneymaxV142RefLast", JSON.stringify(last));
+  }
+}
+function bindReferenceFxV142(m){
+  v142SetReferenceFx("eurkrw", m.eurkrw, 2);
+  v142SetReferenceFx("cnykrw", m.cnykrw, 3);
+  v142SetReferenceFx("twdkrw", m.twdkrw, 3);
+  v142SetReferenceFx("hkdkrw", m.hkdkrw, 3);
+}
+
+
+/* V14.3 ops helpers */
+function currencyUnitLabelV143(currency){
+  if(currency === "JPY") return "100엔";
+  if(currency === "VND") return "100동";
+  if(currency === "IDR") return "100루피아";
+  return "";
+}
+function polishBlockedRowsV143(){
+  document.querySelectorAll(".rate-row,.rank-row,.branch-rate,.currency-card tr,.best-box").forEach(el=>{
+    if(el.textContent.includes("예약중지") || el.textContent.includes("예약불가")){
+      el.classList.add("blocked-row");
+    }
+  });
+}
+const oldRenderV143 = typeof render === "function" ? render : null;
+if(oldRenderV143 && !window.__v143RenderPatched){
+  window.__v143RenderPatched = true;
+  render = function(){
+    const result = oldRenderV143.apply(this, arguments);
+    setTimeout(polishBlockedRowsV143, 0);
+    return result;
+  }
+}
+
+
+/* V14.5 source mode + overview */
+function getSourceModeV145(){try{return (JSON.parse(localStorage.getItem("moneymaxAdminSettings")||"{}").sourceMode)||"tradingview"}catch(e){return"tradingview"}}
+function sourceModeLabelV145(mode){return mode==="investing"?"Investing 우선 · 차트는 참고용":"TradingView 우선 · 차트/숫자 기준 통일"}
+function setOverviewV145(key,data,digits=2,suffix=""){const v=document.getElementById(`ov-${key}`),s=document.getElementById(`ov-${key}-sub`);if(!v||!s)return;const price=data?.price==null?null:Number(data.price);v.textContent=price==null||Number.isNaN(price)?"-":`${fmtMarket(price,digits)}${suffix}`;const cp=data?.changePct==null?null:Number(data.changePct);s.textContent=cp==null||Number.isNaN(cp)?(data?.source||"-"):`${cp>0?"+":""}${cp.toFixed(2)}% · ${data?.source||"-"}`;s.className="overview-mini-sub "+(cp==null||Number.isNaN(cp)?"market-neutral":cp>0?"market-red":cp<0?"market-blue":"market-neutral")}
+function updateSourceStatusV145(json){const el=document.getElementById("sourceStatusPill");if(!el)return;const mode=json?.sourceMode||getSourceModeV145();el.textContent=`기준 소스: ${sourceModeLabelV145(mode)}`}
+function bindOverviewV145(m){setOverviewV145("usdkrw",m.usdkrw,2);setOverviewV145("jpykrw",m.jpykrw,4);setOverviewV145("usdjpy",m.usdjpy,3);setOverviewV145("usdt",m.usdt,0)}
+
+
+/* V14.6 clean overview behavior */
+function sourceModeLabelV146(mode){
+  return mode==="investing" ? "Investing 우선 · TradingView 보조" : "TradingView 우선 · Investing 보조";
+}
+function updateSourceStatusV146(json){
+  const el=document.getElementById("sourceStatusPill");
+  if(!el)return;
+  const mode=json?.sourceMode || (typeof getSourceModeV145==="function" ? getSourceModeV145() : "tradingview");
+  el.textContent=`기준 소스: ${sourceModeLabelV146(mode)}`;
+}
+function toggleSideSection(name){
+  const s=document.querySelector(`.side-section[data-section="${name}"]`);
+  if(!s)return;
+  s.classList.toggle("open");
+  localStorage.setItem("moneymaxOpenSections",JSON.stringify([...document.querySelectorAll(".side-section.open")].map(x=>x.dataset.section)));
+}
+function restoreSideSections(){
+  let opened=[];try{opened=JSON.parse(localStorage.getItem("moneymaxOpenSections")||"[]")}catch(e){}
+  document.querySelectorAll(".side-section").forEach(s=>{s.classList.toggle("open",opened.includes(s.dataset.section));s.classList.remove("collapsed")});
+}
+function removeNoisyBadgesV146(){
+  document.querySelectorAll("*").forEach(el=>{
+    const t=(el.textContent||"").trim();
+    if(t.includes("최소 스프레드")||t.includes("외부 포함")||/^\d+개 지점$/.test(t)){
+      if(el.children.length===0||String(el.className).includes("pill")||String(el.className).includes("badge")) el.style.display="none";
+    }
+  });
+}
+setTimeout(restoreSideSections,0);
+setTimeout(removeNoisyBadgesV146,500);
+setInterval(removeNoisyBadgesV146,1500);
+
+
+/* V14.7 overview/source/badge fix */
+function getSourceModeV147(){
+  try{return (JSON.parse(localStorage.getItem("moneymaxAdminSettings")||"{}").sourceMode)||"tradingview"}catch(e){return"tradingview"}
+}
+function sourceModeLabelV147(mode){
+  return mode==="investing" ? "Investing 우선 · TradingView 보조" : "TradingView 우선 · Investing 보조";
+}
+function updateSourceStatusV147(json){
+  const el=document.getElementById("sourceStatusPill");
+  if(!el)return;
+  const mode=json?.sourceMode||getSourceModeV147();
+  const time=json?.updatedAt ? ` · ${json.updatedAt}` : "";
+  el.textContent=`${sourceModeLabelV147(mode)}${time}`;
+}
+function setOverviewV147(key,data,digits=2,suffix="",updatedAt="-"){
+  const v=document.getElementById(`ov-${key}`);
+  const s=document.getElementById(`ov-${key}-sub`);
+  const t=document.getElementById(`ov-${key}-time`);
+  if(!v||!s)return;
+  const price=data?.price==null?null:Number(data.price);
+  v.textContent=price==null||Number.isNaN(price)?"-":`${fmtMarket(price,digits)}${suffix}`;
+  const cp=data?.changePct==null?null:Number(data.changePct);
+  s.textContent=cp==null||Number.isNaN(cp)?(data?.source||"-"):`${cp>0?"+":""}${cp.toFixed(2)}% · ${data?.source||"-"}`;
+  s.className="overview-mini-sub "+(cp==null||Number.isNaN(cp)?"market-neutral":cp>0?"market-red":cp<0?"market-blue":"market-neutral");
+  if(t)t.textContent="";
+}
+function bindOverviewV147(json){
+  const m=json?.indicators||{};
+  const updatedAt=json?.updatedAt||"-";
+  setOverviewV147("usdkrw",m.usdkrw,2,"",updatedAt);
+  setOverviewV147("jpykrw",m.jpykrw,4,"",updatedAt);
+  setOverviewV147("usdjpy",m.usdjpy,3,"",updatedAt);
+  setOverviewV147("usdt",m.usdt,0,"",updatedAt);
+}
+function removeNoisyBadgesV147(){
+  document.querySelectorAll("*").forEach(el=>{
+    const t=(el.textContent||"").trim();
+    if(t.includes("최소 스프레드")||t.includes("외부 포함")||/^\d+개 지점$/.test(t)){
+      if(el.children.length===0||String(el.className).includes("pill")||String(el.className).includes("badge")||String(el.className).includes("tag")){
+        el.classList.add("noisy-badge");
+        el.style.display="none";
+      }
+    }
+    if(t==="전체 보기"){
+      el.classList.add("mini-view-btn");
+      el.textContent="";
+    }
+  });
+}
+function patchFetchSourceV147(){
+  if(window.__v147FetchPatched)return;
+  window.__v147FetchPatched=true;
+  const originalFetch=window.fetch;
+  window.fetch=function(input,init){
+    if(typeof input==="string" && input.includes("/api/markets") && !input.includes("source=")){
+      const sep=input.includes("?")?"&":"?";
+      input=`${input}${sep}source=${getSourceModeV147()}`;
+    }
+    return originalFetch(input,init);
+  }
+}
+patchFetchSourceV147();
+
+const oldLoadMarketsV147 = typeof loadMarkets==="function" ? loadMarkets : null;
+if(oldLoadMarketsV147 && !window.__v147LoadPatched){
+  window.__v147LoadPatched=true;
+  loadMarkets = async function(){
+    const result = await oldLoadMarketsV147.apply(this, arguments);
+    try{
+      const res = await fetch(`/api/markets?source=${getSourceModeV147()}&overview=1`);
+      const json = await res.json();
+      updateSourceStatusV147(json);
+      bindOverviewV147(json);
+    }catch(e){}
+    return result;
+  }
+}
+const oldRenderV147 = typeof render==="function" ? render : null;
+if(oldRenderV147 && !window.__v147RenderPatched){
+  window.__v147RenderPatched=true;
+  render=function(){
+    const result=oldRenderV147.apply(this,arguments);
+    setTimeout(removeNoisyBadgesV147,0);
+    return result;
+  }
+}
+setTimeout(removeNoisyBadgesV147,500);
+setInterval(removeNoisyBadgesV147,1000);
+
+
+/* V15.5 small helpers */
+function openBranchPanel(){
+  const section=document.querySelector('.side-section[data-section="branches"]');
+  if(!section) return;
+  section.classList.add('open');
+  localStorage.setItem("moneymaxOpenSections", JSON.stringify(["branches"]));
+}
+document.addEventListener("click", function(e){
+  if(e.target.closest(".expanded")){
+    e.stopPropagation();
+  }
+}, true);
+
+
+/* V15.8 safe button/text polish */
+function moneymaxV158Polish(){
+  const source = document.getElementById("sourceStatusPill");
+  if(source){
+    source.textContent = source.textContent
+      .replace("기준 소스: ", "")
+      .replace(" · 수집 ", " · ")
+      .replace("오전", "AM")
+      .replace("오후", "PM");
+  }
+  document.querySelectorAll("button").forEach(btn=>{
+    const txt=(btn.textContent||"").trim();
+    if(txt==="새로고침" && btn.dataset.v158RefreshReady!=="1"){
+      btn.dataset.v158RefreshReady="1";
+      btn.addEventListener("click",()=>{
+        btn.classList.add("refresh-loading");
+        btn.classList.remove("refresh-ok");
+        setTimeout(()=>{
+          btn.classList.remove("refresh-loading");
+          btn.classList.add("refresh-ok");
+          setTimeout(()=>btn.classList.remove("refresh-ok"),1200);
+        },900);
+      }, true);
+    }
+  });
+}
+setTimeout(moneymaxV158Polish,500);
+setInterval(moneymaxV158Polish,1500);
+
 </script>
 
 <div class="admin-modal-backdrop" id="adminBackdrop" onclick="closeAdminSettings()"></div>
@@ -1421,6 +2075,14 @@ applyAdminSettings();
   <div class="admin-title">
     <h3>관리자 설정</h3>
     <button class="admin-close" onclick="closeAdminSettings()">×</button>
+  </div>
+
+  <div class="admin-row">
+    <div class="admin-label">환율 기준 소스</div>
+    <div class="admin-options">
+      <label class="admin-pill"><input type="radio" name="sourceMode" value="investing"> Investing 우선</label>
+      <label class="admin-pill"><input type="radio" name="sourceMode" value="tradingview"> TradingView 우선</label>
+    </div>
   </div>
 
   <div class="admin-row">
@@ -1472,5 +2134,72 @@ applyAdminSettings();
   </div>
 </div>
 
+
+<div id="mmBranchBackdrop" class="mm-branch-backdrop" onclick="closeIndependentBranchModal()"></div>
+<div id="mmBranchModal" class="mm-branch-modal">
+  <div class="mm-branch-head">
+    <h3>지점 선택</h3>
+    <button class="mm-branch-close" onclick="closeIndependentBranchModal()">×</button>
+  </div>
+  <div class="mm-branch-controls">
+    <button class="primary" onclick="mmBranchSelectAll()">전체 선택</button>
+    <button onclick="mmBranchClearAll()">전체 해제</button>
+    <label class="mm-branch-fav">
+      <input type="checkbox" id="mmBranchFavOnly" onchange="renderIndependentBranchModal()">
+      <span>즐겨찾기만 보기</span>
+      <span class="mm-star on">★</span>
+    </label>
+  </div>
+  <div class="mm-branch-body">
+    <div id="mmBranchGrid" class="mm-branch-grid"></div>
+  </div>
+  <div id="mmBranchSummary" class="mm-branch-summary">선택 지점 0개</div>
+</div>
+
+<script>
+
+/* V15.15 independent branch modal logic */
+const MM_BRANCH_GROUPS = {
+  "서울": ["명동","남대문","명동2","제일환전","강남","강남신사","광장시장","동대문","마포","서울역","성수","여의도","연남","용산","이태원","인사동","충무로","홍대"],
+  "경기·인천": ["부평","송도","수원"],
+  "지방": ["대구","부산역","울산","제주","제주동문"]
+};
+function mmCleanBranch(v){try{ if(typeof clean==="function") return clean(v); }catch(e){} return String(v||"").replace(/&amp;/g,"&").trim();}
+function mmGetAllBranches(){try{ if(typeof allBranches==="function") return allBranches(); }catch(e){} try{ if(Array.isArray(rows)) return [...new Set(rows.map(r=>r.branch).filter(Boolean))]; }catch(e){} return [];}
+function mmGetSelected(){try{ if(typeof selectedBranches!=="undefined") return selectedBranches; }catch(e){} window.selectedBranches=window.selectedBranches||new Set(); return window.selectedBranches;}
+function mmGetFavorites(){try{ if(typeof favoriteBranches!=="undefined") return favoriteBranches; }catch(e){} window.favoriteBranches=window.favoriteBranches||new Set(); return window.favoriteBranches;}
+function mmSaveSelected(){try{ if(typeof saveSelectedBranches==="function") return saveSelectedBranches(); }catch(e){} try{ localStorage.setItem("moneymaxSelectedBranches",JSON.stringify([...mmGetSelected()])); }catch(e){}}
+function mmSaveFavorites(){try{ if(typeof saveFavoriteBranches==="function") return saveFavoriteBranches(); }catch(e){} try{ localStorage.setItem("moneymaxFavoriteBranches",JSON.stringify([...mmGetFavorites()])); }catch(e){}}
+function mmRerender(){try{ if(typeof render==="function") render(); }catch(e){} try{ if(typeof renderCards==="function") renderCards(); }catch(e){} try{ if(typeof renderBoard==="function") renderBoard(); }catch(e){} try{ if(typeof renderBranchList==="function") renderBranchList(); }catch(e){}}
+function mmBranchRegion(branch){const b=mmCleanBranch(branch); for(const [region,names] of Object.entries(MM_BRANCH_GROUPS)){ if(names.some(n=>b===n||b.includes(n))) return region; } return "지방";}
+function mmOrderedBranches(){const priority=Object.values(MM_BRANCH_GROUPS).flat(); return mmGetAllBranches().sort((a,b)=>{const ca=mmCleanBranch(a),cb=mmCleanBranch(b); const ai=priority.indexOf(ca),bi=priority.indexOf(cb); return (ai<0?999:ai)-(bi<0?999:bi)||ca.localeCompare(cb,"ko");});}
+function renderIndependentBranchModal(){
+  const grid=document.getElementById("mmBranchGrid"); if(!grid) return;
+  const selected=mmGetSelected(), favorites=mmGetFavorites(), favOnly=document.getElementById("mmBranchFavOnly")?.checked;
+  const groups={"서울":[],"경기·인천":[],"지방":[]};
+  mmOrderedBranches().forEach(branch=>{ if(favOnly&&!favorites.has(branch)) return; groups[mmBranchRegion(branch)].push(branch); });
+  grid.innerHTML=Object.entries(groups).map(([region,list])=>{
+    if(!list.length) return "";
+    return `<div class="mm-region-card"><div class="mm-region-title">${region}</div><div>${
+      list.map(branch=>{
+        const checked=selected.size===0||selected.has(branch);
+        const fav=favorites.has(branch);
+        const safe=String(branch).replace(/'/g,"\\'");
+        return `<label class="mm-branch-row"><input type="checkbox" value="${branch}" ${checked?"checked":""} onchange="mmToggleBranch(this)"><span>${mmCleanBranch(branch)}</span><span class="mm-star ${fav?"on":""}" onclick="mmToggleFavorite(event,'${safe}')">★</span></label>`;
+      }).join("")
+    }</div></div>`;
+  }).join("");
+  const summary=document.getElementById("mmBranchSummary");
+  if(summary){const allCount=mmGetAllBranches().length; const selCount=selected.size===0?allCount:selected.size; summary.textContent=`선택 지점 ${selCount} / ${allCount}`;}
+}
+function mmToggleBranch(input){const selected=mmGetSelected(); const all=mmGetAllBranches(); if(selected.size===0) all.forEach(b=>selected.add(b)); if(input.checked) selected.add(input.value); else selected.delete(input.value); mmSaveSelected(); renderIndependentBranchModal(); mmRerender();}
+function mmBranchSelectAll(){const selected=mmGetSelected(); selected.clear(); mmGetAllBranches().forEach(b=>selected.add(b)); mmSaveSelected(); renderIndependentBranchModal(); mmRerender();}
+function mmBranchClearAll(){const selected=mmGetSelected(); selected.clear(); selected.add("__NONE__"); mmSaveSelected(); renderIndependentBranchModal(); mmRerender();}
+function mmToggleFavorite(event,branch){event.preventDefault(); event.stopPropagation(); const favs=mmGetFavorites(); if(favs.has(branch)) favs.delete(branch); else favs.add(branch); mmSaveFavorites(); renderIndependentBranchModal(); mmRerender();}
+function openIndependentBranchModal(){renderIndependentBranchModal(); document.getElementById("mmBranchBackdrop")?.classList.add("show"); document.getElementById("mmBranchModal")?.classList.add("show");}
+function closeIndependentBranchModal(){document.getElementById("mmBranchBackdrop")?.classList.remove("show"); document.getElementById("mmBranchModal")?.classList.remove("show");}
+document.addEventListener("keydown",e=>{if(e.key==="Escape") closeIndependentBranchModal();});
+
+</script>
 </body>
 </html>
