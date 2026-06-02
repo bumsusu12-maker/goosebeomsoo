@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -43,7 +43,7 @@ app.use(express.static(__dirname));
 
 function isBlockedText(text) {
   const s = String(text || "").replace(/\s+/g, "");
-  return ["예약불가","예약중지","일시중단","거래중지","점검중","환율변동","변동성이심","준비중","중단"].some(k => s.includes(k));
+  return ["예약불가", "예약중지", "일시중단", "거래중지", "매각중지", "수취불가", "변동성", "준비중", "중단"].some(k => s.includes(k));
 }
 
 function normalizeCurrencyUnit(currency, value) {
@@ -59,18 +59,81 @@ function normalizeBySource(branch, currency, value) {
   if (value === null || value === undefined) return null;
   let n = Number(value);
   if (!Number.isFinite(n)) return null;
-
-  // 제일환전 VND/IDR은 530, 830처럼 100배 단위로 들어오는 케이스가 있어 별도 보정.
-  if (branch === "제일환전" && ["VND", "IDR"].includes(currency) && n >= 100) {
-    return n / 100;
+  if (branch === "제일환전") {
+    if (["VND", "IDR"].includes(currency) && n >= 100) return n / 100;
+    if (currency === "TWD") {
+      if (n >= 1000) return n / 100;
+      if (n >= 100 && n < 1000) return n / 10;
+      return n;
+    }
+    const roughMax = {USD:3000,EUR:3000,AUD:3000,CAD:3000,SGD:3000,HKD:400,CNY:400,THB:100,PHP:100,MYR:1000}[currency] || 999999;
+    if (n > roughMax) return n / 100;
   }
-
   return n;
 }
 
 function num(v) {
   const n = Number(String(v ?? "").replace(/,/g, "").trim());
   return Number.isFinite(n) ? n : null;
+}
+
+
+// V15.6 side registration validation
+const MANUAL_SIDE_BLOCKS = {
+  // 실제 등록은 되어 있지만 API가 마지막 값처럼 보내는 케이스 차단
+  // side: buy = 살 때 / sell = 팔 때
+  "머니박스 성수": {
+    "MYR": ["buy"]
+  }
+};
+
+function isManualSideBlocked(branchName, currency, side) {
+  const block = MANUAL_SIDE_BLOCKS?.[branchName]?.[currency];
+  return Array.isArray(block) && block.includes(side);
+}
+
+function isDisabledValue(v) {
+  const s = String(v ?? "").trim().toLowerCase();
+  if (s === "") return false;
+  return [
+    "0", "n", "no", "false", "off", "disabled", "disable",
+    "미등록", "미사용", "사용안함", "예약불가", "예약중지", "중지", "불가", "매각중지"
+  ].some(x => s === x || s.includes(x));
+}
+
+function sideDisabledByRawFields(raw, side) {
+  if (!raw || typeof raw !== "object") return false;
+  const sideKeys = side === "buy"
+    ? ["buy", "매입", "살때", "sal", "purchase"]
+    : ["sell", "매각", "팔때", "pal", "sale"];
+
+  const controlKeys = ["yn", "use", "used", "show", "view", "display", "enable", "enabled", "flag", "chk", "check", "status", "state", "reg", "register", "예약"];
+
+  for (const [key, value] of Object.entries(raw)) {
+    const k = String(key).toLowerCase();
+    const isSideKey = sideKeys.some(s => k.includes(String(s).toLowerCase()));
+    const isControlKey = controlKeys.some(c => k.includes(c));
+    if (isSideKey && isControlKey && isDisabledValue(value)) {
+      return true;
+    }
+  }
+
+  const text = JSON.stringify(raw);
+  if (side === "buy" && /(매입|살\s*때).{0,8}(미등록|미사용|예약불가|예약중지|중지|불가|off|false)/i.test(text)) return true;
+  if (side === "sell" && /(매각|팔\s*때).{0,8}(미등록|미사용|예약불가|예약중지|중지|불가|off|false)/i.test(text)) return true;
+
+  return false;
+}
+
+function validSideRate(raw, branchName, currency, side, value, blocked) {
+  if (blocked) return null;
+  if (isManualSideBlocked(branchName, currency, side)) return null;
+  if (sideDisabledByRawFields(raw, side)) return null;
+
+  const n = Number(value);
+  if (!Number.isFinite(n) || n <= 0) return null;
+
+  return n;
 }
 
 async function getBranch(branch) {
@@ -92,16 +155,20 @@ async function getBranch(branch) {
     buy = normalizeCurrencyUnit(x.crc, buy);
     sell = normalizeCurrencyUnit(x.crc, sell);
     base = normalizeCurrencyUnit(x.crc, base);
+
+    const validBuy = validSideRate(x, branch.name, x.crc, "buy", buy, blocked);
+    const validSell = validSideRate(x, branch.name, x.crc, "sell", sell, blocked);
+
     return {
       branch: branch.name, area: branch.area, currency: x.crc,
-      buy: blocked ? null : buy,
-      sell: blocked ? null : sell,
+      buy: validBuy,
+      sell: validSell,
       base: blocked ? null : base,
       blocked,
       status: blocked ? "예약중지" : "정상",
-      spread: buy && sell ? buy - sell : null,
-      buyDiff: buy && base ? buy - base : null,
-      sellDiff: sell && base ? sell - base : null,
+      spread: validBuy && validSell ? validBuy - validSell : null,
+      buyDiff: validBuy && base ? validBuy - base : null,
+      sellDiff: validSell && base ? validSell - base : null,
       date: payload.dt ? payload.dt[0] : "-",
       source: branch.referer,
       type: "moneybox"
@@ -128,9 +195,12 @@ async function getJeil() {
     buy = normalizeBySource("제일환전", currency, buy);
     sell = normalizeBySource("제일환전", currency, sell);
 
+    const validBuy = validSideRate({ buy, sell, rowText: $(el).text() }, "제일환전", currency, "buy", buy, blocked);
+    const validSell = validSideRate({ buy, sell, rowText: $(el).text() }, "제일환전", currency, "sell", sell, blocked);
+
     data.push({
-      branch:"제일환전", area:"명동", currency, buy: blocked ? null : buy, sell: blocked ? null : sell, base:null, blocked, status: blocked ? "예약중지" : "정상",
-      spread: buy - sell, buyDiff:null, sellDiff:null,
+      branch:"제일환전", area:"명동", currency, buy: validBuy, sell: validSell, base:null, blocked, status: blocked ? "예약중지" : "정상",
+      spread: validBuy && validSell ? validBuy - validSell : null, buyDiff:null, sellDiff:null,
       date: dateText, source:url, type:"external"
     });
   });
@@ -374,7 +444,7 @@ app.get('/api/markets', async (req,res)=>{
   const eurkrw = eurDirect || makeValue(
     usdkrw?.price && tv["FX:EURUSD"]?.price ? usdkrw.price * tv["FX:EURUSD"].price : null,
     null,
-    "USDKRW × EURUSD"
+    "USDKRW x EURUSD"
   );
 
   const cnyDirect = firstValid(investing.cnykrw, tv["FX_IDC:CNYKRW"], tv["FX:CNYKRW"]);
@@ -382,7 +452,7 @@ app.get('/api/markets', async (req,res)=>{
   const cnykrw = cnyDirect || makeValue(
     usdkrw?.price && usdcnh?.price ? usdkrw.price / usdcnh.price : null,
     null,
-    "USDKRW ÷ USDCNH"
+    "USDKRW / USDCNH"
   );
 
   const twdDirect = firstValid(investing.twdkrw, tv["FX_IDC:TWDKRW"], tv["FX:TWDKRW"]);
@@ -390,7 +460,7 @@ app.get('/api/markets', async (req,res)=>{
   const twdkrw = twdDirect || makeValue(
     usdkrw?.price && usdtwd?.price ? usdkrw.price / usdtwd.price : null,
     null,
-    "USDKRW ÷ USDTWD"
+    "USDKRW / USDTWD"
   );
 
   const hkdDirect = firstValid(investing.hkdkrw, tv["FX_IDC:HKDKRW"], tv["FX:HKDKRW"]);
@@ -398,7 +468,7 @@ app.get('/api/markets', async (req,res)=>{
   const hkdkrw = hkdDirect || makeValue(
     usdkrw?.price && usdhkd?.price ? usdkrw.price / usdhkd.price : null,
     null,
-    "USDKRW ÷ USDHKD"
+    "USDKRW / USDHKD"
   );
 
   const usdt = await safe("USDT", async () => {
@@ -445,12 +515,13 @@ app.get('/api/markets', async (req,res)=>{
 // Restore V14.7 server start
 
 // V15.5.1 server start
-
-// V15.8 stable UI fix server start
-
-// V15.15 independent branch modal server start
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-  console.log(`MoneyMax V15.15 running on http://localhost:${PORT}`);
+  console.log(`MoneyMax V15.5.1 running on http://localhost:${PORT}`);
 });
+
+
+// V15.9.7 note: USD/KRW source mode is corrected on the frontend fetch layer when alternate Investing data is present.
+
+
