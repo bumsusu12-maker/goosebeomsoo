@@ -1347,64 +1347,17 @@ html[data-theme="dark"] .settings-footer{
 }
 
 
-/* V15.9.5 profile favorite + branch group fix */
-#branchModal .side-actions,
-#branchModalMount .side-actions,
-.branch-modal .side-actions,
-#branchModal button[onclick*="selectAll"],
-#branchModal button[onclick*="clearAll"],
-#branchModalMount button[onclick*="selectAll"],
-#branchModalMount button[onclick*="clearAll"]{
-  display:none!important;
-}
-#branchModal .star,
-#branchModalMount .star,
-.branch-modal .star{
-  pointer-events:auto!important;
-  cursor:pointer!important;
-  user-select:none!important;
-  position:relative;
-  z-index:5;
-}
-.favorite-row{
-  background:rgba(13,124,255,.08)!important;
-  outline:2px solid rgba(13,124,255,.85)!important;
-  outline-offset:-2px;
-}
-.star-inline{
-  color:var(--blue)!important;
-  font-size:10px;
-  font-weight:950;
-  margin-left:3px;
-}
+/* V16.3 clean profile state */
+.profile-selector-wrap{position:relative!important;display:inline-flex!important;align-items:center!important;z-index:2000!important}#profileSelectorBtn{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;height:40px!important;border-radius:12px!important;padding:0 14px!important;font-size:13px!important;font-weight:950!important;background:var(--surface)!important;border:1px solid var(--line)!important;color:var(--text)!important;cursor:pointer!important;pointer-events:auto!important}.profile-menu{display:none;position:absolute;right:0;top:46px;z-index:30000;width:240px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;pointer-events:auto!important}.profile-menu.show{display:block}.profile-menu-section{padding:8px;border-bottom:1px solid var(--line)}.profile-menu-label{font-size:11px;color:var(--muted);font-weight:950;padding:6px 8px}.profile-option,.profile-action{width:100%;height:38px;border:0;background:transparent;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-radius:10px;font-size:13px;font-weight:950;color:var(--text);cursor:pointer}.profile-action{justify-content:flex-start;gap:8px}.profile-option:hover,.profile-action:hover{background:var(--surface2)}.profile-option.active{color:var(--blue);background:rgba(13,124,255,.08)}
+.profile-manage-modal-bg{display:none;position:fixed;inset:0;z-index:40000;background:rgba(15,23,42,.38);backdrop-filter:blur(3px)}.profile-manage-modal-bg.show{display:block}.profile-manage-modal{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:40001;width:430px;max-width:calc(100vw - 32px);max-height:calc(100vh - 48px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 80px rgba(15,23,42,.22)}.profile-manage-modal.show{display:block}.profile-manage-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}.profile-manage-head h3{margin:0;font-size:18px;font-weight:1000}.profile-manage-body{padding:16px 20px}.profile-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}.profile-list-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;min-height:42px;padding:8px 10px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;font-weight:950}.profile-list-row small{display:block;color:var(--muted);font-weight:800;margin-top:2px}.profile-icon-btn{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer}.profile-icon-btn:disabled{opacity:.35;cursor:not-allowed}.profile-add-row{display:grid;grid-template-columns:1fr auto;gap:8px}#profileNameInput{height:40px;border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:12px;padding:0 12px;font-weight:900}.profile-close-btn{width:34px;height:34px;border-radius:999px}.branch-item .star{pointer-events:auto!important;cursor:pointer!important;position:relative;z-index:5}.favorite-row{background:rgba(13,124,255,.08)!important;outline:2px solid rgba(13,124,255,.85)!important;outline-offset:-2px}.star-inline{color:var(--blue)!important;font-size:10px;font-weight:950;margin-left:3px}[data-mm-hidden="1"]{display:none!important}html[data-theme="dark"] .profile-menu,html[data-theme="dark"] .profile-manage-modal,html[data-theme="dark"] .profile-list-row,html[data-theme="dark"] #profileNameInput,html[data-theme="dark"] .profile-icon-btn,html[data-theme="dark"] #profileSelectorBtn{background:#0f172a!important;border-color:#263245!important;color:#e5edf7!important}html[data-theme="dark"] .profile-option:hover,html[data-theme="dark"] .profile-action:hover{background:#111c30}
 
 
-/* V15.9.6 profile/theme hardfix */
-.profile-icon-btn,[data-delete-profile],[data-rename-profile]{
-  pointer-events:auto!important;cursor:pointer!important;position:relative;z-index:10;
-}
-.profile-icon-btn:disabled{opacity:.35!important;cursor:not-allowed!important}
-html[data-theme="dark"] body{background:var(--bg)!important}
-
-
-/* V15.9.7 profile delete + usd source fix */
-.profile-icon-btn,[data-delete-profile],[data-v1597-delete],[data-rename-profile]{
-  pointer-events:auto!important;
-  cursor:pointer!important;
-  position:relative;
-  z-index:50;
-}
-.profile-icon-btn:disabled{opacity:.35!important;cursor:not-allowed!important}
-
-
-/* V16.2.1 real click/state fix */
-#profileSelectorWrap,.profile-selector-wrap,#profileSelectorBtn,#profileMenu,#profileMenu *,#indicatorSideList,#indicatorSideList *,#branchModal,#branchModal *,#branchModalMount,#branchModalMount *{pointer-events:auto!important;}
-#profileSelectorWrap,.profile-selector-wrap{position:relative!important;z-index:20000!important;}
-#profileSelectorBtn{position:relative!important;z-index:20001!important;cursor:pointer!important;}
-#profileMenu,.profile-menu{z-index:30000!important;}
-[data-mm-hidden="1"]{display:none!important;}
-.profile-icon-btn,[data-mm-profile-delete],[data-mm-profile-rename]{pointer-events:auto!important;cursor:pointer!important;position:relative!important;z-index:30001!important;}
-.profile-icon-btn:disabled{opacity:.35!important;cursor:not-allowed!important;}
+/* V16.4 branch select rescue */
+#topBranchBtn,#branchModal,#branchModal *,#branchModalMount,#branchModalMount *,.branch-modal,.branch-modal *{pointer-events:auto!important}
+#topBranchBtn{cursor:pointer!important;position:relative!important;z-index:1000!important}
+#branchModal input[type="checkbox"],#branchModalMount input[type="checkbox"],.branch-modal input[type="checkbox"]{cursor:pointer!important;pointer-events:auto!important}
+.branch-item,.branch-item *{pointer-events:auto!important}
+[data-branch-filtered-out="1"]{display:none!important}
 
 </style>
 </head>
@@ -1484,7 +1437,7 @@ html[data-theme="dark"] body{background:var(--bg)!important}
         <button onclick="toggleTable()" id="tableBtn">표 보기</button>
         
 <div class="profile-selector-wrap" id="profileSelectorWrap">
-  <button id="profileSelectorBtn" type="button" onclick="window.moneymaxV1621&&window.moneymaxV1621.toggleProfileMenu(event)">🏢 프로필 <span>▾</span></button>
+  <button id="profileSelectorBtn" type="button">🏢 프로필 <span>▾</span></button>
   <div class="profile-menu" id="profileMenu"></div>
 </div>
         <button id="topBranchBtn" type="button" >지점 선택</button>
@@ -1589,6 +1542,80 @@ html[data-theme="dark"] body{background:var(--bg)!important}
     </section>
   </main>
 </div>
+
+<div class="branch-modal-backdrop" id="branchModalBackdrop" aria-hidden="true"></div>
+<section class="branch-modal" id="branchModal" role="dialog" aria-modal="true" aria-labelledby="branchModalHeading">
+  <div class="branch-modal-title">
+    <h3 id="branchModalHeading">지점 선택</h3>
+    <button class="branch-modal-close" id="branchModalClose" type="button" aria-label="지점 선택 닫기">×</button>
+  </div>
+  <div id="branchModalMount"></div>
+</section>
+
+<div class="profile-manage-modal-bg" id="profileManageBg" aria-hidden="true"></div>
+<section class="profile-manage-modal" id="profileManageModal" role="dialog" aria-modal="true" aria-labelledby="profileManageHeading">
+  <div class="profile-manage-head">
+    <h3 id="profileManageHeading">지점별 프로필 관리</h3>
+    <button class="profile-close-btn" id="profileManageClose" type="button" aria-label="프로필 관리 닫기">×</button>
+  </div>
+  <div class="profile-manage-body">
+    <div class="profile-list" id="profileManageList"></div>
+    <div class="profile-add-row">
+      <input id="profileNameInput" type="text" maxlength="30" autocomplete="off" placeholder="새 프로필 이름" aria-label="새 프로필 이름">
+      <button class="primary" id="profileAddBtn" type="button">추가</button>
+    </div>
+  </div>
+</section>
+
+<div class="admin-modal-backdrop" id="adminBackdrop" onclick="closeAdminSettings()" aria-hidden="true"></div>
+<section class="admin-modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminModalHeading">
+  <div class="admin-title">
+    <h3 id="adminModalHeading">환경 설정</h3>
+    <button class="admin-close" type="button" onclick="closeAdminSettings()" aria-label="설정 닫기">×</button>
+  </div>
+  <div class="admin-row">
+    <div class="admin-label">시장 데이터 기준</div>
+    <div class="admin-options">
+      <label class="admin-pill"><input type="radio" name="sourceMode" value="tradingview"> TradingView 우선</label>
+      <label class="admin-pill"><input type="radio" name="sourceMode" value="investing"> Investing 우선</label>
+    </div>
+  </div>
+  <div class="admin-row">
+    <div class="admin-label">변동 알림 민감도</div>
+    <div class="admin-options">
+      <label class="admin-pill"><input type="radio" name="alertThreshold" value="3"> 기본</label>
+      <label class="admin-pill"><input type="radio" name="alertThreshold" value="5"> 낮음</label>
+      <label class="admin-pill"><input type="radio" name="alertThreshold" value="off"> 끄기</label>
+    </div>
+  </div>
+  <div class="admin-row">
+    <div class="admin-label">시장 데이터 새로고침</div>
+    <div class="admin-options">
+      <label class="admin-pill"><input type="radio" name="refreshInterval" value="10000"> 10초</label>
+      <label class="admin-pill"><input type="radio" name="refreshInterval" value="30000"> 30초</label>
+      <label class="admin-pill"><input type="radio" name="refreshInterval" value="60000"> 1분</label>
+    </div>
+  </div>
+  <div class="admin-row">
+    <div class="admin-label">기본 테마</div>
+    <div class="admin-options">
+      <label class="admin-pill"><input type="radio" name="defaultTheme" value="system"> 시스템</label>
+      <label class="admin-pill"><input type="radio" name="defaultTheme" value="light"> 라이트</label>
+      <label class="admin-pill"><input type="radio" name="defaultTheme" value="dark"> 다크</label>
+    </div>
+  </div>
+  <div class="admin-row">
+    <div class="admin-label">광고 영역</div>
+    <div class="admin-options">
+      <label class="admin-pill"><input type="radio" name="adsEnabled" value="off"> 숨김</label>
+      <label class="admin-pill"><input type="radio" name="adsEnabled" value="on"> 표시</label>
+    </div>
+  </div>
+  <div class="admin-actions">
+    <button type="button" onclick="resetAdminSettings()">초기화</button>
+    <button class="primary" type="button" onclick="saveAdminSettings()">저장</button>
+  </div>
+</section>
 
 <script>
 
@@ -1714,7 +1741,7 @@ function bestFor(cur){
 }
 function rowTemplate(r,i,type,rankOverride=null){
   const value = type === "buy" ? r.buy : r.sell;
-  const focus = typeof getProfileFavoriteSetV1595 === "function" ? getProfileFavoriteSetV1595().has(r.branch) : false;
+  const focus = typeof isFavoriteBranchV1592 === "function" ? isFavoriteBranchV1592(r.branch) : false;
   const rank = rankOverride ?? (i+1);
   return `<div class="row ${type === "buy" ? "buy-row":"sell-row"} ${focus ? "focus-row favorite-row" : ""}">
     <div class="no">${rank}</div>
@@ -1773,7 +1800,7 @@ function renderBoard(){
 function renderTable(){
   const data = activeRows().sort((a,b)=>preferred.indexOf(a.currency)-preferred.indexOf(b.currency)||a.branch.localeCompare(b.branch,"ko"));
   document.getElementById("tbody").innerHTML = data.map(r=>{
-    const focus = typeof getProfileFavoriteSetV1595 === "function" ? getProfileFavoriteSetV1595().has(r.branch) : false;
+    const focus = typeof isFavoriteBranchV1592 === "function" ? isFavoriteBranchV1592(r.branch) : false;
     return `<tr class="${focus ? 'focus-row' : ''}">
     <td><b class="${focus ? 'focus-cell' : ''}">${r.branch}${focus ? ' · ★' : ''}</b></td><td>${r.area}</td><td><span class="tag">${r.currency}</span></td>
     <td>${fmt(r.buy)}</td><td>${r.sell?fmt(r.sell):"-"}</td><td>${fmt(r.spread)}</td><td>${fmt(r.base)}</td><td>${fmt(r.buyDiff)}</td><td>${fmt(r.sellDiff)}</td><td>${r.date}</td>
@@ -2055,7 +2082,10 @@ async function loadMarkets(){
     if(document.getElementById("k-binance")) if(document.getElementById("k-binance")) document.getElementById("k-binance").textContent=k.binance?`$${fmtMarket(k.binance,2)}`:"-";
     if(document.getElementById("k-usdkrw")) if(document.getElementById("k-usdkrw")) document.getElementById("k-usdkrw").textContent=k.usdkrw?fmtMarket(k.usdkrw,2):"-";
     if(document.getElementById("k-global")) if(document.getElementById("k-global")) document.getElementById("k-global").textContent=k.globalKrw?`${Math.round(k.globalKrw).toLocaleString()}원`:"-";
-  }catch(e){console.warn("market load failed",e);}
+    if(typeof updateSourceStatusV147 === "function") updateSourceStatusV147(json);
+    if(typeof bindOverviewV147 === "function") bindOverviewV147(json);
+    return json;
+  }catch(e){console.warn("market load failed",e);return null;}
 }
 initV13Settings();
 
@@ -2534,20 +2564,6 @@ function patchFetchSourceV147(){
 }
 patchFetchSourceV147();
 
-const oldLoadMarketsV147 = typeof loadMarkets==="function" ? loadMarkets : null;
-if(oldLoadMarketsV147 && !window.__v147LoadPatched){
-  window.__v147LoadPatched=true;
-  loadMarkets = async function(){
-    const result = await oldLoadMarketsV147.apply(this, arguments);
-    try{
-      const res = await fetch(`/api/markets?source=${getSourceModeV147()}&overview=1`);
-      const json = await res.json();
-      updateSourceStatusV147(json);
-      bindOverviewV147(json);
-    }catch(e){}
-    return result;
-  }
-}
 const oldRenderV147 = typeof render==="function" ? render : null;
 if(oldRenderV147 && !window.__v147RenderPatched){
   window.__v147RenderPatched=true;
@@ -2623,7 +2639,7 @@ function wireBranchModalV158(){
   }
 }
 
-function branchRegionV1595(name){
+function branchRegionV158(name){
   const seoul = ["명동","남대문","명동2","제일환전","강남","강남신사","광장시장","동대문","마포","서울역","성수","여의도","연남","용산","이태원","인사동","충무로","홍대"];
   const metro = ["부평","송도","수원","평택","인천","일산","분당"];
   if(seoul.includes(name)) return "서울";
@@ -2657,7 +2673,7 @@ function groupBranchModalV158(){
 
   items.forEach(item => {
     const txt = (item.textContent || "").replace("★","").trim();
-    regions[branchRegionV1595(txt)]?.push(item);
+    regions[branchRegionV158(txt)]?.push(item);
   });
 
   Object.entries(regions).forEach(([title, arr]) => {
@@ -2756,609 +2772,102 @@ setTimeout(polishThemeSettingsV1582, 300);
 setInterval(polishThemeSettingsV1582, 1500);
 
 
-/* V15.9 branch profile storage */
-const PROFILE_STORAGE_KEY_V159="moneymaxProfilesV159";
-const PROFILE_CURRENT_KEY_V159="moneymaxCurrentProfileV159";
-const PROFILE_KEYS_V159=["selectedBranches","favoriteBranches","moneymaxOpenSections","moneymaxAdminSettings","moneymaxThemeMode","theme","selectedIndicators","moneymaxSelectedIndicators","moneymaxIndicators","selectedCharts","moneymaxSelectedCharts"];
-function defaultProfilesV159(){return {"남대문점":{icon:"🏢",data:{}},"명동점":{icon:"🏢",data:{}},"명동 2호점":{icon:"🏢",data:{}},"강남점":{icon:"🏢",data:{}}}}
-function getProfilesV159(){let s={};try{s=JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY_V159)||"{}")}catch(e){};const m={...defaultProfilesV159(),...s};localStorage.setItem(PROFILE_STORAGE_KEY_V159,JSON.stringify(m));return m}
-function setProfilesV159(p){localStorage.setItem(PROFILE_STORAGE_KEY_V159,JSON.stringify(p))}
-function getCurrentProfileV159(){const p=getProfilesV159();const s=localStorage.getItem(PROFILE_CURRENT_KEY_V159);if(s&&p[s])return s;const f=Object.keys(p)[0]||"남대문점";localStorage.setItem(PROFILE_CURRENT_KEY_V159,f);return f}
-function saveCurrentStateToProfileV159(){const c=getCurrentProfileV159();const p=getProfilesV159();p[c]??={icon:"🏢",data:{}};p[c].data??={};PROFILE_KEYS_V159.forEach(k=>{const v=localStorage.getItem(k);if(v!==null)p[c].data[k]=v});setProfilesV159(p)}
-function applyProfileStateV159(n){const p=getProfilesV159();if(!p[n])return;localStorage.setItem(PROFILE_CURRENT_KEY_V159,n);PROFILE_KEYS_V159.forEach(k=>{if(p[n].data&&Object.prototype.hasOwnProperty.call(p[n].data,k))localStorage.setItem(k,p[n].data[k]);else localStorage.removeItem(k)})}
-function switchProfileV159(n){saveCurrentStateToProfileV159();applyProfileStateV159(n);location.reload()}
-function profileMenuHTMLV159(){const p=getProfilesV159(),c=getCurrentProfileV159();const rows=Object.keys(p).map(n=>`<button class="profile-option ${n===c?"active":""}" type="button" data-profile-name="${n}"><span>${p[n].icon||"🏢"} ${n}</span><span>${n===c?"✓":""}</span></button>`).join("");return `<div class="profile-menu-section"><div class="profile-menu-label">현재 프로필</div>${rows}</div><button class="profile-action" type="button" id="profileNewQuick">＋ 새 프로필 추가</button><button class="profile-action" type="button" id="profileManageOpen">⚙ 프로필 관리</button>`}
-function renderProfileSelectorV159(){const b=document.getElementById("profileSelectorBtn"),m=document.getElementById("profileMenu");if(!b||!m)return;const p=getProfilesV159(),c=getCurrentProfileV159();b.innerHTML=`${p[c]?.icon||"🏢"} ${c} <span>▾</span>`;m.innerHTML=profileMenuHTMLV159();m.querySelectorAll("[data-profile-name]").forEach(el=>el.addEventListener("click",()=>switchProfileV159(el.dataset.profileName)));m.querySelector("#profileNewQuick")?.addEventListener("click",()=>{m.classList.remove("show");openProfileManageV159(true)});m.querySelector("#profileManageOpen")?.addEventListener("click",()=>{m.classList.remove("show");openProfileManageV159(false)})}
-function openProfileManageV159(f=false){renderProfileManageV159();document.getElementById("profileManageBg")?.classList.add("show");document.getElementById("profileManageModal")?.classList.add("show");if(f)setTimeout(()=>document.getElementById("profileNameInput")?.focus(),50)}
-function closeProfileManageV159(){document.getElementById("profileManageBg")?.classList.remove("show");document.getElementById("profileManageModal")?.classList.remove("show")}
-function renderProfileManageV159(){const l=document.getElementById("profileManageList");if(!l)return;const p=getProfilesV159(),c=getCurrentProfileV159();l.innerHTML=Object.keys(p).map(n=>`<div class="profile-list-row"><div>${p[n].icon||"🏢"} ${n}<small>${n===c?"현재 사용 중":"저장된 프로필"}</small></div><button class="profile-icon-btn" type="button" data-rename-profile="${n}">✎</button><button class="profile-icon-btn" type="button" data-delete-profile="${n}" ${Object.keys(p).length<=1?"disabled":""}>🗑</button></div>`).join("");l.querySelectorAll("[data-rename-profile]").forEach(btn=>btn.addEventListener("click",()=>{const old=btn.dataset.renameProfile;const next=prompt("새 프로필 이름",old);if(!next||!next.trim()||next.trim()===old)return;renameProfileV159(old,next.trim())}));l.querySelectorAll("[data-delete-profile]").forEach(btn=>btn.addEventListener("click",()=>{const n=btn.dataset.deleteProfile;if(!confirm(`${n} 프로필을 삭제할까요?`))return;deleteProfileV159(n)}))}
-function addProfileV159(name){const n=String(name||"").trim();if(!n)return;const p=getProfilesV159();if(p[n]){alert("이미 있는 프로필 이름입니다.");return}saveCurrentStateToProfileV159();p[n]={icon:"🏢",data:{}};setProfilesV159(p);applyProfileStateV159(n);location.reload()}
-function renameProfileV159(o,n){const p=getProfilesV159();if(!p[o]||p[n])return;p[n]=p[o];delete p[o];setProfilesV159(p);if(getCurrentProfileV159()===o)localStorage.setItem(PROFILE_CURRENT_KEY_V159,n);renderProfileSelectorV159();renderProfileManageV159()}
-function deleteProfileV159(n){const p=getProfilesV159();if(Object.keys(p).length<=1)return;delete p[n];setProfilesV159(p);if(getCurrentProfileV159()===n){const next=Object.keys(p)[0];applyProfileStateV159(next);location.reload();return}renderProfileSelectorV159();renderProfileManageV159()}
-function wireProfilesV159(){const b=document.getElementById("profileSelectorBtn"),m=document.getElementById("profileMenu");if(b&&!b.dataset.wiredV159){b.dataset.wiredV159="1";b.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();saveCurrentStateToProfileV159();renderProfileSelectorV159();m?.classList.toggle("show")})}document.addEventListener("click",e=>{if(!e.target.closest("#profileSelectorWrap"))m?.classList.remove("show")});document.getElementById("profileManageBg")?.addEventListener("click",closeProfileManageV159);document.getElementById("profileManageClose")?.addEventListener("click",closeProfileManageV159);document.getElementById("profileAddBtn")?.addEventListener("click",()=>addProfileV159(document.getElementById("profileNameInput")?.value));window.addEventListener("beforeunload",saveCurrentStateToProfileV159);setInterval(saveCurrentStateToProfileV159,5000)}
-document.addEventListener("DOMContentLoaded",()=>{getProfilesV159();getCurrentProfileV159();renderProfileSelectorV159();wireProfilesV159()});setTimeout(()=>{renderProfileSelectorV159();wireProfilesV159()},500);
 
-
-/* V15.9.1 robust favorite + profile delete */
-function getBranchNameFromItemV1591(item){
-  if(!item) return "";
-  const clone = item.cloneNode(true);
-  clone.querySelectorAll("input,.star").forEach(x=>x.remove());
-  return (clone.textContent || "").replace("★","").trim();
-}
-
-function getFavoriteSetV1591(){
-  try{
-    return new Set(JSON.parse(localStorage.getItem("favoriteBranches") || "[]"));
-  }catch(e){
-    return new Set();
-  }
-}
-
-function setFavoriteSetV1591(set){
-  localStorage.setItem("favoriteBranches", JSON.stringify([...set]));
-  if(typeof saveCurrentStateToProfileV159 === "function") saveCurrentStateToProfileV159();
-}
-
-function refreshStarsV1591(){
-  const favs = getFavoriteSetV1591();
-  document.querySelectorAll("#branchModal .branch-item, #branchModalMount .branch-item, .branch-item").forEach(item=>{
-    const name = getBranchNameFromItemV1591(item);
-    const star = item.querySelector(".star");
-    if(star && name){
-      star.classList.toggle("on", favs.has(name));
-      star.textContent = "★";
-      star.style.color = favs.has(name) ? "#f5a400" : "";
-    }
-  });
-}
-
-function wireFavoriteDelegationV1591(){
-  if(window.__wiredFavoriteV1591) return;
-  window.__wiredFavoriteV1591 = true;
-
-  document.addEventListener("click", function(e){
-    const star = e.target.closest(".star");
-    if(!star) return;
-
-    const item = star.closest(".branch-item");
-    if(!item) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-
-    const name = getBranchNameFromItemV1591(item);
-    if(!name) return;
-
-    const favs = getFavoriteSetV1591();
-    if(favs.has(name)) favs.delete(name);
-    else favs.add(name);
-
-    setFavoriteSetV1591(favs);
-    refreshStarsV1591();
-
-    if(typeof renderBranches === "function"){
-      try{ renderBranches(); }catch(err){}
-    }
-    if(typeof renderBoard === "function"){
-      try{ renderBoard(); }catch(err){}
-    }
-
-    setTimeout(refreshStarsV1591, 100);
-  }, true);
-}
-
-function hardDeleteProfileV1591(name){
-  let profiles = {};
-  try{
-    profiles = JSON.parse(localStorage.getItem("moneymaxProfilesV159") || "{}");
-  }catch(e){ profiles = {}; }
-
-  const keys = Object.keys(profiles);
-  if(keys.length <= 1){
-    alert("프로필은 최소 1개가 필요합니다.");
-    return;
-  }
-  if(!profiles[name]) return;
-
-  if(!confirm(`${name} 프로필을 삭제할까요?`)) return;
-
-  delete profiles[name];
-  localStorage.setItem("moneymaxProfilesV159", JSON.stringify(profiles));
-
-  const current = localStorage.getItem("moneymaxCurrentProfileV159");
-  if(current === name){
-    const next = Object.keys(profiles)[0];
-    localStorage.setItem("moneymaxCurrentProfileV159", next);
-
-    const data = profiles[next]?.data || {};
-    const keysToApply = [
-      "selectedBranches","favoriteBranches","moneymaxOpenSections",
-      "moneymaxAdminSettings","moneymaxThemeMode","theme",
-      "selectedIndicators","moneymaxSelectedIndicators","moneymaxIndicators",
-      "selectedCharts","moneymaxSelectedCharts"
-    ];
-
-    keysToApply.forEach(k=>{
-      if(Object.prototype.hasOwnProperty.call(data,k)) localStorage.setItem(k,data[k]);
-      else localStorage.removeItem(k);
-    });
-    location.reload();
-    return;
-  }
-
-  if(typeof renderProfileSelectorV159 === "function") renderProfileSelectorV159();
-  if(typeof renderProfileManageV159 === "function") renderProfileManageV159();
-}
-
-function wireProfileDeleteDelegationV1591(){
-  if(window.__wiredProfileDeleteV1591) return;
-  window.__wiredProfileDeleteV1591 = true;
-
-  document.addEventListener("click", function(e){
-    const btn = e.target.closest("[data-delete-profile]");
-    if(!btn) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-
-    const name = btn.getAttribute("data-delete-profile");
-    if(name) hardDeleteProfileV1591(name);
-  }, true);
-}
-
-function polishProfileFixV1591(){
-  wireFavoriteDelegationV1591();
-  wireProfileDeleteDelegationV1591();
-  refreshStarsV1591();
-}
-
-document.addEventListener("DOMContentLoaded", polishProfileFixV1591);
-setTimeout(polishProfileFixV1591, 300);
-setInterval(refreshStarsV1591, 1500);
-
-
-/* V15.9.2 favorite display separation */
-function getFavoritesOnlyV1592(){
-  try{
-    return new Set(JSON.parse(localStorage.getItem("favoriteBranches") || "[]"));
-  }catch(e){
-    return new Set();
-  }
-}
-function isFavoriteBranchV1592(branch){
-  return getFavoritesOnlyV1592().has(branch);
-}
-function cleanWrongFavoriteDisplayV1592(){
-  const favs = getFavoritesOnlyV1592();
-
-  document.querySelectorAll(".row,.rank-row,.rate-row").forEach(row=>{
-    const branchEl = row.querySelector(".branch");
-    if(!branchEl) return;
-
-    const branchName = (branchEl.textContent || "")
-      .replace("★","")
-      .trim();
-
-    const isFav = favs.has(branchName);
-
-    row.classList.toggle("favorite-row", isFav);
-
-    if(!isFav){
-      // 즐겨찾기가 아니면 별표 문구 제거
-      branchEl.querySelectorAll("span").forEach(s=>{
-        if((s.textContent || "").includes("★")) s.remove();
-      });
-      branchEl.innerHTML = branchEl.innerHTML.replace(/\\s*★\\s*/g, "");
-    }else{
-      if(!branchEl.querySelector(".star-inline")){
-        const star = document.createElement("span");
-        star.className = "star-inline";
-        star.textContent = "★";
-        branchEl.appendChild(star);
-      }
-    }
-  });
-}
-setTimeout(cleanWrongFavoriteDisplayV1592, 500);
-setInterval(cleanWrongFavoriteDisplayV1592, 1000);
-
-
-/* V15.9.3 logo theme switch */
-function applyMoneyMaxLogoV1593(){
-  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-  const src = isDark ? "./moneymax-logo-3d-dark.png" : "./moneymax-logo-3d-light.png";
-  document.querySelectorAll(".logo img,.logo-box img,.sidebar-logo img,.brand-logo img,img[src*='logo']").forEach(img=>{
-    if((img.src || "").includes("moneymax") || (img.src || "").includes("moneybox") || img.closest(".logo,.logo-box,.sidebar-logo,.brand-logo")){
-      img.src = src;
-      img.style.objectFit = "contain";
-    }
-  });
-}
-document.addEventListener("DOMContentLoaded", applyMoneyMaxLogoV1593);
-setTimeout(applyMoneyMaxLogoV1593, 300);
-setInterval(applyMoneyMaxLogoV1593, 1500);
-
-
-/* V15.9.4 robust theme save */
-function getCheckedThemeV1594(){
-  const explicit = document.querySelector('input[name="themeMode"]:checked');
-  if(explicit) return explicit.value === "dark" ? "dark" : "light";
-
-  const defaultMode = document.querySelector('input[name="defaultTheme"]:checked');
-  if(defaultMode){
-    const v = defaultMode.value;
-    if(v === "dark") return "dark";
-    if(v === "light") return "light";
-    if(v === "system"){
-      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-  }
-
-  return localStorage.getItem("moneymaxThemeMode") || localStorage.getItem("theme") || "light";
-}
-
-function applyThemeV1594(mode){
-  const safe = mode === "dark" ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", safe);
-  document.body?.setAttribute("data-theme", safe);
-  localStorage.setItem("moneymaxThemeMode", safe);
-  localStorage.setItem("theme", safe);
-
-  // 기존 관리자 설정에도 반영
-  try{
-    const settings = JSON.parse(localStorage.getItem("moneymaxAdminSettings") || "{}");
-    settings.defaultTheme = safe;
-    settings.themeMode = safe;
-    localStorage.setItem("moneymaxAdminSettings", JSON.stringify(settings));
-  }catch(e){}
-
-  if(typeof saveCurrentStateToProfileV159 === "function"){
-    try{ saveCurrentStateToProfileV159(); }catch(e){}
-  }
-
-  if(typeof applyMoneyMaxLogoV1593 === "function"){
-    setTimeout(applyMoneyMaxLogoV1593, 50);
-  }
-}
-
-function syncThemeInputsV1594(){
-  const mode = localStorage.getItem("moneymaxThemeMode") || localStorage.getItem("theme") || document.documentElement.getAttribute("data-theme") || "light";
-  document.querySelectorAll('input[name="themeMode"], input[name="defaultTheme"]').forEach(input=>{
-    if(input.value === mode) input.checked = true;
-    if(input.value === "system" && mode !== "light" && mode !== "dark") input.checked = true;
-  });
-}
-
-function wireThemeSettingsV1594(){
-  document.querySelectorAll('input[name="themeMode"], input[name="defaultTheme"]').forEach(input=>{
-    if(input.dataset.themeWireV1594) return;
-    input.dataset.themeWireV1594 = "1";
-    input.addEventListener("change", ()=>{
-      if(input.checked) applyThemeV1594(getCheckedThemeV1594());
-    });
-  });
-
-  // 저장 버튼 누를 때도 한번 더 적용
-  document.querySelectorAll("button").forEach(btn=>{
-    const text = (btn.textContent || "").trim();
-    if(!["저장","변경사항 저장","설정 저장"].includes(text)) return;
-    if(btn.dataset.themeSaveWireV1594) return;
-    btn.dataset.themeSaveWireV1594 = "1";
-    btn.addEventListener("click", ()=>{
-      setTimeout(()=>applyThemeV1594(getCheckedThemeV1594()), 0);
-      setTimeout(()=>applyThemeV1594(getCheckedThemeV1594()), 150);
-    }, true);
-  });
-}
-
-function initThemeV1594(){
-  applyThemeV1594(localStorage.getItem("moneymaxThemeMode") || localStorage.getItem("theme") || "light");
-  syncThemeInputsV1594();
-  wireThemeSettingsV1594();
-}
-
-document.addEventListener("DOMContentLoaded", initThemeV1594);
-setTimeout(initThemeV1594, 300);
-setInterval(()=>{ wireThemeSettingsV1594(); syncThemeInputsV1594(); }, 1200);
-
-
-/* V15.9.5 branch region correction */
-function branchRegionV1595(name){
-  const clean = String(name || "").replace("★","").trim();
-  const seoul = [
-    "명동","남대문","명동2","명동 2호","제일환전","제일 환전",
-    "강남","강남신사","광장시장","동대문","마포","서울역","성수",
-    "여의도","연남","용산","이태원","인사동","충무로","홍대"
-  ];
-  const metro = ["부평","송도","수원","평택","인천","일산","분당"];
-  if(seoul.includes(clean)) return "서울";
-  if(metro.includes(clean)) return "경기·인천";
-  return "지방";
-}
-
-
-/* V15.9.5 profile-scoped favorites */
-function currentProfileNameV1595(){
-  if(typeof getCurrentProfileV159 === "function"){
-    try{return getCurrentProfileV159();}catch(e){}
-  }
-  return localStorage.getItem("moneymaxCurrentProfileV159") || "기본";
-}
-function getProfilesObjectV1595(){
-  try{return JSON.parse(localStorage.getItem("moneymaxProfilesV159") || "{}");}
-  catch(e){return {};}
-}
-function setProfilesObjectV1595(profiles){
-  localStorage.setItem("moneymaxProfilesV159", JSON.stringify(profiles || {}));
-}
-function getProfileFavoriteSetV1595(){
-  const profile = currentProfileNameV1595();
-  const profiles = getProfilesObjectV1595();
-  let raw = null;
-  if(profiles[profile]?.data && Object.prototype.hasOwnProperty.call(profiles[profile].data, "favoriteBranches")){
-    raw = profiles[profile].data.favoriteBranches;
-  }else{
-    raw = localStorage.getItem("favoriteBranches") || "[]";
-  }
-  try{return new Set(JSON.parse(raw || "[]"));}catch(e){return new Set();}
-}
-function saveProfileFavoriteSetV1595(set){
-  const profile = currentProfileNameV1595();
-  const profiles = getProfilesObjectV1595();
-  profiles[profile] ??= {icon:"🏢", data:{}};
-  profiles[profile].data ??= {};
-  profiles[profile].data.favoriteBranches = JSON.stringify([...set]);
-  setProfilesObjectV1595(profiles);
-  localStorage.setItem("favoriteBranches", JSON.stringify([...set]));
-  if(typeof saveCurrentStateToProfileV159 === "function"){
-    try{saveCurrentStateToProfileV159();}catch(e){}
-  }
-}
-function branchNameFromItemV1595(item){
-  if(!item) return "";
-  const clone = item.cloneNode(true);
-  clone.querySelectorAll("input,.star,button").forEach(x=>x.remove());
-  return (clone.textContent || "").replace("★","").trim();
-}
-function refreshProfileStarsV1595(){
-  const favs = getProfileFavoriteSetV1595();
-
-  document.querySelectorAll("#branchModal .branch-item, #branchModalMount .branch-item, .branch-item").forEach(item=>{
-    const name = branchNameFromItemV1595(item);
-    const star = item.querySelector(".star");
-    if(!star || !name) return;
-    const on = favs.has(name);
-    star.classList.toggle("on", on);
-    star.textContent = "★";
-    star.style.color = on ? "#f5a400" : "";
-  });
-
-  document.querySelectorAll(".row,.rank-row,.rate-row").forEach(row=>{
-    const branchEl = row.querySelector(".branch");
-    if(!branchEl) return;
-    const name = (branchEl.textContent || "").replace("★","").trim();
-    const on = favs.has(name);
-    row.classList.toggle("favorite-row", on);
-    branchEl.querySelectorAll(".star-inline").forEach(s=>s.remove());
-    branchEl.innerHTML = branchEl.innerHTML.replace(/\\s*★\\s*/g, "");
-    if(on){
-      const star = document.createElement("span");
-      star.className = "star-inline";
-      star.textContent = "★";
-      branchEl.appendChild(star);
-    }
-  });
-}
-function wireProfileFavoriteClickV1595(){
-  if(window.__wiredProfileFavoriteV1595) return;
-  window.__wiredProfileFavoriteV1595 = true;
-  document.addEventListener("click", function(e){
-    const star = e.target.closest(".star");
-    if(!star) return;
-    const item = star.closest(".branch-item");
-    if(!item) return;
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-    const name = branchNameFromItemV1595(item);
-    if(!name) return;
-    const favs = getProfileFavoriteSetV1595();
-    if(favs.has(name)) favs.delete(name);
-    else favs.add(name);
-    saveProfileFavoriteSetV1595(favs);
-    refreshProfileStarsV1595();
-    if(typeof renderBoard === "function"){try{renderBoard();}catch(err){}}
-    setTimeout(refreshProfileStarsV1595, 100);
-    setTimeout(refreshProfileStarsV1595, 500);
-  }, true);
-}
-function applyCurrentProfileFavoritesV1595(){
-  const favs = getProfileFavoriteSetV1595();
-  localStorage.setItem("favoriteBranches", JSON.stringify([...favs]));
-  refreshProfileStarsV1595();
-}
-function polishFavoriteV1595(){
-  wireProfileFavoriteClickV1595();
-  applyCurrentProfileFavoritesV1595();
-}
-document.addEventListener("DOMContentLoaded", polishFavoriteV1595);
-setTimeout(polishFavoriteV1595, 300);
-setTimeout(polishFavoriteV1595, 1000);
-setInterval(refreshProfileStarsV1595, 1500);
-
-</script>
-
-<div class="admin-modal-backdrop" id="adminBackdrop" onclick="closeAdminSettings()"></div>
-<div class="admin-modal" id="adminModal">
-  <div class="admin-title">
-    <h3>관리자 설정</h3>
-    <button class="admin-close" onclick="closeAdminSettings()">×</button>
-  </div>
-
-  
-<div class="admin-row settings-theme-row">
-  <div class="admin-label">화면 모드</div>
-  <div class="settings-theme-group">
-    <label class="settings-theme-pill"><input type="radio" name="themeMode" value="light"> 라이트</label>
-    <label class="settings-theme-pill"><input type="radio" name="themeMode" value="dark"> 다크</label>
-  </div>
-</div>
-
-<div class="admin-row">
-    <div class="admin-label">환율 기준 소스</div>
-    <div class="admin-options">
-      <label class="admin-pill"><input type="radio" name="sourceMode" value="investing"> Investing 우선</label>
-      <label class="admin-pill"><input type="radio" name="sourceMode" value="tradingview"> TradingView 우선</label>
-    </div>
-  </div>
-
-  <div class="admin-row">
-    <div class="admin-label">급등락 알림 기준</div>
-    <div class="admin-options">
-      <label class="admin-pill"><input type="radio" name="alertThreshold" value="3"> 3원</label>
-      <label class="admin-pill"><input type="radio" name="alertThreshold" value="5"> 5원</label>
-      <label class="admin-pill"><input type="radio" name="alertThreshold" value="off"> OFF</label>
-    </div>
-  </div>
-
-  <div class="admin-row">
-    <div class="admin-label">자동 갱신 주기</div>
-    <div class="admin-options">
-      <label class="admin-pill"><input type="radio" name="refreshInterval" value="10000"> 10초</label>
-      <label class="admin-pill"><input type="radio" name="refreshInterval" value="30000"> 30초</label>
-      <label class="admin-pill"><input type="radio" name="refreshInterval" value="60000"> 1분</label>
-    </div>
-  </div>
-
-  <div class="admin-row">
-    <div class="admin-label">광고 노출</div>
-    <div class="admin-options">
-      <label class="admin-pill"><input type="radio" name="adsEnabled" value="on"> ON</label>
-      <label class="admin-pill"><input type="radio" name="adsEnabled" value="off"> OFF</label>
-    </div>
-  </div>
-
-  <div class="admin-row">
-    <div class="admin-label">기본 화면 모드</div>
-    <div class="admin-options">
-      <label class="admin-pill"><input type="radio" name="defaultTheme" value="light"> 라이트</label>
-      <label class="admin-pill"><input type="radio" name="defaultTheme" value="dark"> 다크</label>
-      <label class="admin-pill"><input type="radio" name="defaultTheme" value="system"> 시스템</label>
-    </div>
-  </div>
-
-  <div class="admin-row">
-    <div class="admin-label">보조지표 기본값</div>
-    <div class="admin-options">
-      <button onclick="saveCurrentIndicatorsAsDefault()">현재 체크값을 기본값으로 저장</button>
-      <button onclick="restoreIndicatorDefault()">기본값 불러오기</button>
-    </div>
-  </div>
-
-  <div class="admin-actions">
-    <button onclick="saveAdminSettings()">저장</button>
-    <button onclick="resetAdminSettings()">초기화</button>
-  </div>
-</div>
-
-
-<div class="branch-modal-backdrop" id="branchModalBackdrop"></div>
-<div class="branch-modal" id="branchModal">
-  <div class="branch-modal-title">
-    <h3>지점 선택</h3>
-    <button class="branch-modal-close" id="branchModalClose" type="button">×</button>
-  </div>
-  <div id="branchModalMount"></div>
-</div>
-
-
-<div class="profile-manage-modal-bg" id="profileManageBg"></div>
-<div class="profile-manage-modal" id="profileManageModal">
-  <div class="profile-manage-head"><h3>프로필 관리</h3><button class="profile-close-btn" id="profileManageClose" type="button">×</button></div>
-  <div class="profile-manage-body"><div class="profile-list" id="profileManageList"></div><div class="profile-add-row"><input id="profileNameInput" placeholder="예) 명동점, 강남점"><button class="primary" id="profileAddBtn" type="button">추가</button></div></div>
-</div>
-
-
-
-
-
-
-
-
-<script>
-/* V15.9.7 USD/KRW source correction */
+/* V16.3 clean profile state */
 (function(){
-function mode(){
-  try{
-    const s=JSON.parse(localStorage.getItem("moneymaxAdminSettings")||"{}");
-    return String(s.sourceMode||s.rateSource||s.source||"").toLowerCase();
-  }catch(e){}
-  return String(localStorage.getItem("moneymaxSourceMode")||"").toLowerCase();
-}
-function wantsInv(){return mode().includes("investing")}
-function patch(data){
-  if(!data||!wantsInv())return data;
-  const ind=data.indicators||data; if(!ind||!ind.usdkrw)return data;
-  const keys=["usdkrw_investing","investing_usdkrw","usdkrwInvesting","usdkrwINV","usdkrw_alt","usdkrwAlt"];
-  const inv=keys.map(k=>ind[k]).find(x=>x&&Number.isFinite(Number(x.price)));
-  if(inv){
-    ind.usdkrw={...ind.usdkrw,price:Number(inv.price),changePct:inv.changePct??ind.usdkrw.changePct,changeAbs:inv.changeAbs??ind.usdkrw.changeAbs,source:"Investing"};
-  }
-  return data;
-}
-if(!window.__v1597UsdFetchPatch){
- window.__v1597UsdFetchPatch=true;
- const nf=window.fetch;
- window.fetch=async function(...args){
-  const res=await nf.apply(this,args);
-  try{
-   const url=String(args[0]||"");
-   if(url.includes("/api/markets")){
-    const data=await res.clone().json();
-    return new Response(JSON.stringify(patch(data)),{status:res.status,statusText:res.statusText,headers:{"Content-Type":"application/json"}});
-   }
-  }catch(e){}
-  return res;
- };
-}
+const PK='moneymaxProfilesV163', CK='moneymaxCurrentProfileV163';
+const WORDS={usdkrw:['원달러','달러원','usd/krw','usdkrw'],jpykrw:['원엔','jpy/krw','jpykrw'],usdjpy:['달러엔','usd/jpy','usdjpy'],usdt:['테더','usdt','usdt/krw'],kimchi:['김프','김치'],wti:['wti'],dxy:['달러인덱스','dxy'],kospi:['코스피','kospi'],vix:['vix'],nasdaq:['나스닥','nasdaq'],sp500:['s&p500','s&p 500','sp500'],us10y:['미국10년물','10년물','us10y']};
+const DEF={usdkrw:true,jpykrw:true,usdjpy:true,usdt:true,kimchi:false,wti:false,dxy:false,kospi:false,vix:false,nasdaq:false,sp500:false,us10y:false};
+function rg(k,f){try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}}
+function wg(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function esc(v){return String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function ps(){let p=rg(PK,{});if(!p||typeof p!=='object')p={};if(!Object.keys(p).length){p['내 프로필']={icon:'🏢',branches:rg('moneymaxSelectedBranches',[]),favorites:rg('favoriteBranches',[]),indicators:{...DEF,...rg('moneymaxIndicators',{})},theme:localStorage.getItem('theme')||'light',sourceMode:'tradingview'};localStorage.setItem(CK,'내 프로필')}let c=localStorage.getItem(CK);if(!c||!p[c]){c=Object.keys(p)[0];localStorage.setItem(CK,c)}Object.keys(p).forEach(n=>{p[n].icon??='🏢';p[n].branches??=[];p[n].favorites??=[];p[n].indicators={...DEF,...(p[n].indicators||{})};p[n].theme??='light';p[n].sourceMode??='tradingview'});wg(PK,p);return p}
+function cur(){let p=ps(),c=localStorage.getItem(CK);return p[c]?c:Object.keys(p)[0]}
+function st(){return ps()[cur()]}
+function mirror(s=st()){wg('moneymaxSelectedBranches',s.branches||[]);wg('selectedBranches',s.branches||[]);wg('favoriteBranches',s.favorites||[]);wg('moneyboxFavorites',s.favorites||[]);wg('moneymaxIndicators',s.indicators||DEF);wg('selectedIndicators',s.indicators||DEF);wg('moneymaxSelectedIndicators',s.indicators||DEF);localStorage.setItem('moneymaxThemeMode',s.theme||'light');localStorage.setItem('theme',s.theme||'light');let a=rg('moneymaxAdminSettings',{});a.defaultTheme=s.theme||'light';a.themeMode=s.theme||'light';a.sourceMode=s.sourceMode||'tradingview';a.rateSource=s.sourceMode||'tradingview';wg('moneymaxAdminSettings',a)}
+function save(next={}){let p=ps(),c=cur();p[c]={...p[c],...next};wg(PK,p);mirror(p[c]);return p[c]}
+function renderProfiles(){let p=ps(),c=cur(),b=document.getElementById('profileSelectorBtn');if(b)b.innerHTML=`${esc(p[c].icon||'🏢')} ${esc(c)} <span>▾</span>`;let m=document.getElementById('profileMenu');if(m)m.innerHTML=`<div class="profile-menu-section"><div class="profile-menu-label">현재 프로필</div>${Object.keys(p).map(n=>`<button class="profile-option ${n===c?'active':''}" type="button" data-prof-switch="${esc(n)}"><span>${esc(p[n].icon||'🏢')} ${esc(n)}</span><span>${n===c?'✓':''}</span></button>`).join('')}</div><button class="profile-action" type="button" data-prof-new>＋ 새 프로필 추가</button><button class="profile-action" type="button" data-prof-manage>⚙ 프로필 관리</button>`;let l=document.getElementById('profileManageList');if(l){let ns=Object.keys(p);l.innerHTML=ns.map(n=>`<div class="profile-list-row"><div>${esc(p[n].icon||'🏢')} ${esc(n)}<small>${n===c?'현재 사용 중':'저장된 프로필'}</small></div><button class="profile-icon-btn" type="button" data-prof-rename="${esc(n)}" aria-label="${esc(n)} 이름 변경">✎</button><button class="profile-icon-btn" type="button" data-prof-delete="${esc(n)}" aria-label="${esc(n)} 삭제" ${ns.length<=1?'disabled':''}>🗑</button></div>`).join('')}}
+function branchesFromUI(){let ins=[...document.querySelectorAll('#branchModal input[type=checkbox],#branchModalMount input[type=checkbox],#branchList input[type=checkbox]')].filter(i=>i.value),all=[...new Set(ins.map(i=>i.value))],chk=[...new Set(ins.filter(i=>i.checked).map(i=>i.value))];if(!chk.length)return['__NONE__'];if(all.length&&chk.length>=all.length)return[];return chk}
+function saveFromUI(){save({branches:branchesFromUI(),indicators:st().indicators,favorites:st().favorites})}
+function applyProfile(n){let p=ps();if(!p[n])return;saveFromUI();localStorage.setItem(CK,n);mirror(p[n]);location.reload()}
+function openManage(f=false){renderProfiles();document.getElementById('profileManageBg')?.classList.add('show');document.getElementById('profileManageModal')?.classList.add('show');if(f){let i=document.getElementById('profileNameInput');if(i)i.value='';setTimeout(()=>i?.focus(),50)}}
+function closeManage(){document.getElementById('profileManageBg')?.classList.remove('show');document.getElementById('profileManageModal')?.classList.remove('show')}
+function addProfile(){let i=document.getElementById('profileNameInput'),n=(i?.value||'').trim();if(!n)return;let p=ps();if(p[n]){alert('이미 있는 프로필 이름입니다.');return}saveFromUI();p[n]={icon:'🏢',branches:[],favorites:[],indicators:{...DEF},theme:'light',sourceMode:'tradingview'};wg(PK,p);localStorage.setItem(CK,n);mirror(p[n]);location.reload()}
+function delProfile(n){let p=ps();if(Object.keys(p).length<=1){alert('프로필은 최소 1개가 필요합니다.');return}if(!p[n])return;if(!confirm(`${n} 프로필을 삭제할까요?`))return;delete p[n];wg(PK,p);if(cur()===n){let nx=Object.keys(p)[0];localStorage.setItem(CK,nx);mirror(p[nx]);location.reload()}else renderProfiles()}
+function renProfile(n){let p=ps(),x=prompt('새 프로필 이름',n);if(!x||!x.trim())return;let c=x.trim();if(c===n)return;if(p[c]){alert('이미 있는 프로필 이름입니다.');return}p[c]=p[n];delete p[n];wg(PK,p);if(cur()===n)localStorage.setItem(CK,c);renderProfiles()}
+function applyBranchUI(){let b=st().branches||[];document.querySelectorAll('#branchModal input[type=checkbox],#branchModalMount input[type=checkbox],#branchList input[type=checkbox]').forEach(i=>{if(!i.value)return;if(b.includes('__NONE__'))i.checked=false;else if(!b.length)i.checked=true;else i.checked=b.includes(i.value)})}
+function selectedOk(branch){let b=st().branches||[];if(b.includes('__NONE__'))return false;if(!b.length)return true;return b.includes(branch)}
+function itemName(item){return item?.querySelector('input[type="checkbox"]')?.value||''}
+function toggleFav(item){let n=itemName(item);if(!n)return;let s=st(),set=new Set(s.favorites||[]);set.has(n)?set.delete(n):set.add(n);save({favorites:[...set]});try{if(typeof render==='function')render()}catch(e){};setTimeout(applyFavUI,50)}
+function applyFavUI(){let fav=new Set(st().favorites||[]);document.querySelectorAll('#branchModal .branch-item,#branchModalMount .branch-item,#branchList .branch-item').forEach(it=>{let n=itemName(it),star=it.querySelector('.star');if(star&&n){let on=fav.has(n);star.classList.toggle('on',on);star.style.color=on?'#f5a400':''}});document.querySelectorAll('.row,.rank-row,.rate-row').forEach(r=>{let e=r.querySelector('.branch');if(!e)return;let n=(e.textContent||'').replace('★','').trim(),on=fav.has(n);r.classList.toggle('favorite-row',on);e.querySelectorAll('.star-inline').forEach(x=>x.remove());e.innerHTML=e.innerHTML.replace(/\s*★\s*/g,'');if(on){let s=document.createElement('span');s.className='star-inline';s.textContent='★';e.appendChild(s)}})}
+function indKey(input){if(input.dataset.indicator)return input.dataset.indicator;let t=(input.closest('label,.side-option,.indicator-option,div')?.textContent||'').toLowerCase();for(let [k,ws] of Object.entries(WORDS)){if(ws.some(w=>t.includes(w)))return k}return input.value||''}
+function saveIndUI(){let ind={...st().indicators};document.querySelectorAll('#indicatorSideList input[type=checkbox]').forEach(i=>{let k=indKey(i);if(k)ind[k]=!!i.checked});save({indicators:ind});applyIndUI()}
+function hide(el,h){if(!el)return;if(h){el.dataset.mmHidden='1';el.style.setProperty('display','none','important')}else{delete el.dataset.mmHidden;el.style.removeProperty('display')}}
+function match(el,k){let t=(el.textContent||'').toLowerCase();return(WORDS[k]||[k]).some(w=>t.includes(w))}
+function applyIndUI(){let ind=st().indicators||DEF;document.querySelectorAll('#indicatorSideList input[type=checkbox]').forEach(i=>{let k=indKey(i);if(k&&Object.prototype.hasOwnProperty.call(ind,k))i.checked=!!ind[k]});Object.keys(WORDS).forEach(k=>{let on=Object.prototype.hasOwnProperty.call(ind,k)?!!ind[k]:true;document.querySelectorAll(`[data-indicator-card="${k}"]`).forEach(e=>hide(e,!on));let ov=document.getElementById(`ov-${k}`);if(ov)hide(ov.closest('.overview-mini,.market-card,.indicator-card,.mini-card,.ref-card')||ov,!on);document.querySelectorAll('.overview-mini,.market-card,.indicator-card,.mini-card,.ref-card').forEach(e=>{if(match(e,k))hide(e,!on)})})}
+function renderAll(){mirror(st());applyBranchUI();applyFavUI();applyIndUI();window.selectedBranchOk=selectedOk;try{selectedBranchOk=selectedOk}catch(e){}}
+function wire(){if(window.__mmV163Wired)return;window.__mmV163Wired=true;window.selectedBranchOk=selectedOk;try{selectedBranchOk=selectedOk}catch(e){};document.addEventListener('click',e=>{let p=e.target.closest('#profileSelectorBtn');if(p){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();renderProfiles();document.getElementById('profileMenu')?.classList.toggle('show');return}if(!e.target.closest('#profileSelectorWrap'))document.getElementById('profileMenu')?.classList.remove('show');let sw=e.target.closest('[data-prof-switch]');if(sw){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();applyProfile(sw.dataset.profSwitch);return}if(e.target.closest('[data-prof-new]')){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();document.getElementById('profileMenu')?.classList.remove('show');openManage(true);return}if(e.target.closest('[data-prof-manage]')){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();document.getElementById('profileMenu')?.classList.remove('show');openManage(false);return}let d=e.target.closest('[data-prof-delete]');if(d){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();if(!d.disabled)delProfile(d.dataset.profDelete);return}let r=e.target.closest('[data-prof-rename]');if(r){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();renProfile(r.dataset.profRename);return}if(e.target.closest('#profileAddBtn')){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();addProfile();return}if(e.target.closest('#profileManageClose')||e.target.closest('#profileManageBg')){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();closeManage();return}let star=e.target.closest('#branchModal .star,#branchModalMount .star,#branchList .star');if(star){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();toggleFav(star.closest('.branch-item'));return}},true);document.addEventListener('change',e=>{if(e.target.closest('#branchModal input[type=checkbox],#branchModalMount input[type=checkbox],#branchList input[type=checkbox]')){setTimeout(()=>{save({branches:branchesFromUI()});mirror(st());try{if(typeof render==='function')render()}catch(x){}},0);return}if(e.target.closest('#indicatorSideList input[type=checkbox]')){setTimeout(saveIndUI,0);return}},true);window.addEventListener('beforeunload',saveFromUI);}
+function init(){mirror(st());renderProfiles();renderAll();wire();setTimeout(renderAll,300);setTimeout(renderAll,1000)}
+document.addEventListener('DOMContentLoaded',init);setTimeout(init,300);setTimeout(init,1000);
+window.moneymaxV163={state:st,saveState:save,renderAll,renderProfiles,applyProfile,applyIndUI,applyFavUI,selectedBranchOk:selectedOk};
 })();
 </script>
 
 
 <script>
-/* V16.2.1 real profile + indicator fix */
+/* V16.3.1 favorite flicker fix */
 (function(){
-const PK="moneymaxProfilesV159", CK="moneymaxCurrentProfileV159";
-const IND={usdkrw:["원달러","달러원","usd/krw","usdkrw"],jpykrw:["원엔","엔원","jpy/krw","jpykrw"],usdjpy:["달러엔","usd/jpy","usdjpy"],usdt:["테더","usdt"],kimchi:["김프","김치"],wti:["wti"],dxy:["달러인덱스","dxy"],kospi:["코스피","kospi"],vix:["vix"],nasdaq:["나스닥","nasdaq"],sp500:["s&p500","s&p 500","sp500"],us10y:["미국10년물","10년물","us10y"]};
-function jget(k,f){try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f));}catch(e){return f}}
-function jset(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function profiles(){let p={};try{p=JSON.parse(localStorage.getItem(PK)||"{}")}catch(e){};if(!p||typeof p!=="object")p={};if(Object.keys(p).length===0){const n=localStorage.getItem(CK)||"내 프로필";p[n]={icon:"🏢",data:{}};localStorage.setItem(CK,n)}let c=localStorage.getItem(CK);if(!c||!p[c]){c=Object.keys(p)[0];localStorage.setItem(CK,c)}Object.keys(p).forEach(n=>{p[n].icon??="🏢";p[n].data??={}});localStorage.setItem(PK,JSON.stringify(p));return p}
-function current(){const p=profiles(),c=localStorage.getItem(CK);return p[c]?c:Object.keys(p)[0]}
-function saveProfile(){const p=profiles(),c=current();p[c]??={icon:"🏢",data:{}};p[c].data??={};["moneymaxSelectedBranches","selectedBranches","favoriteBranches","moneyboxFavorites","moneymaxIndicators","selectedIndicators","moneymaxSelectedIndicators","moneymaxCharts","selectedCharts","moneymaxSelectedCharts","moneymaxAdminSettings","moneymaxThemeMode","theme"].forEach(k=>{const v=localStorage.getItem(k);if(v!==null)p[c].data[k]=v});localStorage.setItem(PK,JSON.stringify(p))}
-function applyProfile(n){const p=profiles();if(!p[n])return;saveProfile();localStorage.setItem(CK,n);Object.entries(p[n].data||{}).forEach(([k,v])=>localStorage.setItem(k,v));location.reload()}
-function renderProfiles(){const p=profiles(),c=current();const btn=document.getElementById("profileSelectorBtn");if(btn){btn.innerHTML=`${p[c]?.icon||"🏢"} ${c} <span>▾</span>`;btn.onclick=toggleProfileMenu}const menu=document.getElementById("profileMenu");if(menu){menu.innerHTML=`<div class="profile-menu-section"><div class="profile-menu-label">현재 프로필</div>${Object.keys(p).map(n=>`<button class="profile-option ${n===c?"active":""}" type="button" data-mm-profile-switch="${n}"><span>${p[n].icon||"🏢"} ${n}</span><span>${n===c?"✓":""}</span></button>`).join("")}</div><button class="profile-action" type="button" data-mm-profile-new>＋ 새 프로필 추가</button><button class="profile-action" type="button" data-mm-profile-manage>⚙ 프로필 관리</button>`}const list=document.getElementById("profileManageList");if(list){const names=Object.keys(p);list.innerHTML=names.map(n=>`<div class="profile-list-row"><div>${p[n].icon||"🏢"} ${n}<small>${n===c?"현재 사용 중":"저장된 프로필"}</small></div><button class="profile-icon-btn" type="button" data-mm-profile-rename="${n}">✎</button><button class="profile-icon-btn" type="button" data-mm-profile-delete="${n}" ${names.length<=1?"disabled":""}>🗑</button></div>`).join("")}}
-function toggleProfileMenu(e){e&&e.preventDefault();e&&e.stopPropagation();e&&e.stopImmediatePropagation&&e.stopImmediatePropagation();saveProfile();renderProfiles();document.getElementById("profileMenu")?.classList.toggle("show")}
-function openManage(f=false){renderProfiles();document.getElementById("profileManageBg")?.classList.add("show");document.getElementById("profileManageModal")?.classList.add("show");if(f)setTimeout(()=>document.getElementById("profileNameInput")?.focus(),50)}
-function closeManage(){document.getElementById("profileManageBg")?.classList.remove("show");document.getElementById("profileManageModal")?.classList.remove("show")}
-function addProfile(){const input=document.getElementById("profileNameInput"),n=(input?.value||"").trim();if(!n)return;const p=profiles();if(p[n]){alert("이미 있는 프로필 이름입니다.");return}saveProfile();p[n]={icon:"🏢",data:{}};localStorage.setItem(PK,JSON.stringify(p));applyProfile(n)}
-function deleteProfile(n){const p=profiles();if(Object.keys(p).length<=1){alert("프로필은 최소 1개가 필요합니다.");return}if(!p[n])return;if(!confirm(`${n} 프로필을 삭제할까요?`))return;delete p[n];localStorage.setItem(PK,JSON.stringify(p));if(current()===n){localStorage.setItem(CK,Object.keys(p)[0]);location.reload()}else renderProfiles()}
-function renameProfile(n){const p=profiles(),next=prompt("새 프로필 이름",n);if(!next||!next.trim())return;const clean=next.trim();if(clean===n)return;if(p[clean]){alert("이미 있는 프로필 이름입니다.");return}p[clean]=p[n];delete p[n];localStorage.setItem(PK,JSON.stringify(p));if(current()===n)localStorage.setItem(CK,clean);renderProfiles()}
-function keyFromInput(input){if(input.dataset.indicator)return input.dataset.indicator;const txt=(input.closest("label,.side-option,.indicator-option,div")?.textContent||"").toLowerCase();for(const [k,words] of Object.entries(IND)){if(words.some(w=>txt.includes(w)))return k}return input.value||""}
-function indicatorState(){const st=jget("moneymaxIndicators",{});document.querySelectorAll("#indicatorSideList input[type=checkbox]").forEach(i=>{const k=keyFromInput(i);if(k)st[k]=!!i.checked});return st}
-function saveIndicatorState(){const st=indicatorState();jset("moneymaxIndicators",st);jset("selectedIndicators",st);jset("moneymaxSelectedIndicators",st);saveProfile();applyIndicators()}
-function setHidden(el,h){if(!el)return;if(h){el.dataset.mmHidden="1";el.style.setProperty("display","none","important")}else{delete el.dataset.mmHidden;el.style.removeProperty("display")}}
-function matches(el,k){const t=(el.textContent||"").toLowerCase();return(IND[k]||[k]).some(w=>t.includes(w))}
-function applyIndicators(){const st=jget("moneymaxIndicators",{});document.querySelectorAll("#indicatorSideList input[type=checkbox]").forEach(i=>{const k=keyFromInput(i);if(k&&Object.prototype.hasOwnProperty.call(st,k))i.checked=!!st[k]});Object.keys(IND).forEach(k=>{const on=Object.prototype.hasOwnProperty.call(st,k)?!!st[k]:true;document.querySelectorAll(`[data-indicator-card="${k}"]`).forEach(el=>setHidden(el,!on));const ov=document.getElementById(`ov-${k}`);if(ov)setHidden(ov.closest(".overview-mini,.market-card,.indicator-card,.mini-card,.ref-card")||ov,!on);document.querySelectorAll(".overview-mini,.market-card,.indicator-card,.mini-card,.ref-card").forEach(el=>{if(matches(el,k))setHidden(el,!on)})})}
-function selectedBranchesFromUI(){const inputs=[...document.querySelectorAll("#branchModal input[type=checkbox],#branchModalMount input[type=checkbox],#branchList input[type=checkbox]")].filter(i=>i.value);const all=[...new Set(inputs.map(i=>i.value))],checked=[...new Set(inputs.filter(i=>i.checked).map(i=>i.value))];if(checked.length===0)return["__NONE__"];if(all.length&&checked.length>=all.length)return[];return checked}
-function saveBranches(){const s=selectedBranchesFromUI();jset("moneymaxSelectedBranches",s);jset("selectedBranches",s);try{if(typeof selectedBranches!=="undefined"){selectedBranches.clear();s.forEach(x=>selectedBranches.add(x))}}catch(e){}saveProfile();try{if(typeof render==="function")render()}catch(e){}try{if(typeof renderBoard==="function")renderBoard()}catch(e){}}
-function selectedBranchOkHot(branch){const s=jget("moneymaxSelectedBranches",[]);if(s.includes("__NONE__"))return false;if(!s.length)return true;return s.includes(branch)}
-function wire(){if(window.__mmV1621Wired)return;window.__mmV1621Wired=true;window.selectedBranchOk=selectedBranchOkHot;try{selectedBranchOk=selectedBranchOkHot}catch(e){}window.addEventListener("click",function(e){const prof=e.target.closest("#profileSelectorBtn");if(prof){toggleProfileMenu(e);return}if(!e.target.closest("#profileSelectorWrap"))document.getElementById("profileMenu")?.classList.remove("show");const sw=e.target.closest("[data-mm-profile-switch]");if(sw){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();applyProfile(sw.dataset.mmProfileSwitch);return}if(e.target.closest("[data-mm-profile-new]")){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();document.getElementById("profileMenu")?.classList.remove("show");openManage(true);return}if(e.target.closest("[data-mm-profile-manage]")){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();document.getElementById("profileMenu")?.classList.remove("show");openManage(false);return}const del=e.target.closest("[data-mm-profile-delete]");if(del){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();if(!del.disabled)deleteProfile(del.dataset.mmProfileDelete);return}const ren=e.target.closest("[data-mm-profile-rename]");if(ren){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();renameProfile(ren.dataset.mmProfileRename);return}if(e.target.closest("#profileAddBtn")){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();addProfile();return}if(e.target.closest("#profileManageClose")||e.target.closest("#profileManageBg")){e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();closeManage();return}},true);document.addEventListener("change",function(e){if(e.target.closest("#indicatorSideList input[type=checkbox]")){e.stopPropagation();setTimeout(saveIndicatorState,0);return}if(e.target.closest("#branchModal input[type=checkbox],#branchModalMount input[type=checkbox],#branchList input[type=checkbox]")){e.stopPropagation();setTimeout(saveBranches,0);return}},true);setInterval(applyIndicators,1000);window.addEventListener("beforeunload",saveProfile)}
-function init(){renderProfiles();applyIndicators();wire();setTimeout(applyIndicators,300);setTimeout(applyIndicators,1000)}
-document.addEventListener("DOMContentLoaded",init);setTimeout(init,300);setTimeout(init,1000);
-window.moneymaxV1621={toggleProfileMenu,renderProfiles,applyIndicators,saveIndicatorState,saveBranches,selectedBranchOkHot};
+  function safeApply(){
+    if(window.moneymaxV163 && typeof window.moneymaxV163.applyFavUI === "function"){
+      try{ window.moneymaxV163.applyFavUI(); }catch(e){}
+    }
+    if(window.moneymaxV163 && typeof window.moneymaxV163.applyIndUI === "function"){
+      try{ window.moneymaxV163.applyIndUI(); }catch(e){}
+    }
+  }
+
+  let lastHash = "";
+  function boardHash(){
+    const board = document.querySelector(".grid,.cards,.currency-grid,.currency-board,main");
+    return board ? String(board.children.length) + "|" + board.textContent.length : "";
+  }
+
+  setInterval(function(){
+    const h = boardHash();
+    if(h && h !== lastHash){
+      lastHash = h;
+      setTimeout(safeApply,80);
+    }
+  },1200);
+
+  document.addEventListener("click", function(e){
+    if(e.target.closest(".star")){
+      setTimeout(safeApply,80);
+      setTimeout(safeApply,250);
+    }
+  }, true);
+})();
+</script>
+
+
+<script>
+/* V16.4 branch select rescue */
+(function(){
+const KEY="moneymaxSelectedBranches";
+function r(k,f){try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}}
+function w(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function inputs(){return [...document.querySelectorAll('#branchModal input[type="checkbox"],#branchModalMount input[type="checkbox"],.branch-modal input[type="checkbox"]')].filter(i=>i.value&&!i.disabled)}
+function selectedFromUI(){let ins=inputs(),all=[...new Set(ins.map(i=>i.value))],chk=[...new Set(ins.filter(i=>i.checked).map(i=>i.value))]; if(!chk.length)return["__NONE__"]; if(all.length&&chk.length>=all.length)return[]; return chk}
+function saved(){let x=r(KEY,[]); return Array.isArray(x)?x:[]}
+function allowed(name){let s=saved(); if(s.includes('__NONE__'))return false; if(!s.length)return true; return s.includes(name)}
+function save(){let s=selectedFromUI(); w(KEY,s); w('selectedBranches',s); try{if(typeof selectedBranches!=='undefined'&&selectedBranches.clear){selectedBranches.clear();s.forEach(x=>selectedBranches.add(x))}}catch(e){}; try{if(typeof render==='function')render()}catch(e){}; try{if(typeof renderBoard==='function')renderBoard()}catch(e){}; setTimeout(filterRows,50); setTimeout(filterRows,250)}
+function syncChecks(){let s=saved(); inputs().forEach(i=>{if(s.includes('__NONE__'))i.checked=false; else if(!s.length)i.checked=true; else i.checked=s.includes(i.value)})}
+function clean(t){return String(t||'').replace('★','').trim()}
+function rowName(row){let b=row.querySelector('.branch'); if(b)return clean(b.textContent); let a=[...row.querySelectorAll('td,.name,.branch-name,span,div')]; for(let el of a){let t=clean(el.textContent); if(t&&t.length<=12&&!/^\d/.test(t)&&!t.includes('TOP')&&!t.includes('BEST'))return t} return ''}
+function filterRows(){document.querySelectorAll('[data-branch-filtered-out="1"]').forEach(el=>{delete el.dataset.branchFilteredOut;el.style.removeProperty('display')})}
+function openFallback(){let m=document.getElementById('branchModal')||document.getElementById('branchModalMount')||document.querySelector('.branch-modal'); if(!m)return false; m.classList.add('show','open','active'); m.style.display=''; m.style.pointerEvents='auto'; syncChecks(); return true}
+function wire(){if(window.__moneymaxBranchRescueV164)return; window.__moneymaxBranchRescueV164=true; window.selectedBranchOk=allowed; try{selectedBranchOk=allowed}catch(e){}; window.saveBranchSelection=save; window.applyBranchSelection=save; document.addEventListener('click',e=>{let btn=e.target.closest('#topBranchBtn'); if(btn){setTimeout(()=>{let m=document.getElementById('branchModal')||document.getElementById('branchModalMount')||document.querySelector('.branch-modal'); let vis=m&&getComputedStyle(m).display!=='none'&&m.getBoundingClientRect().width>20; if(!vis)openFallback()},80)}},true); document.addEventListener('change',e=>{let i=e.target.closest('#branchModal input[type="checkbox"],#branchModalMount input[type="checkbox"],.branch-modal input[type="checkbox"]'); if(i&&i.value)setTimeout(save,0)},true); document.addEventListener('click',e=>{let row=e.target.closest('.branch-item'); if(!row||row.tagName==='LABEL')return; let i=row.querySelector('input[type="checkbox"]'); if(!i||e.target===i||e.target.closest('.star'))return; i.checked=!i.checked; i.dispatchEvent(new Event('change',{bubbles:true}))},false); setTimeout(()=>{syncChecks();filterRows()},300); setTimeout(()=>{syncChecks();filterRows()},1000)}
+document.addEventListener('DOMContentLoaded',wire); setTimeout(wire,300); setTimeout(wire,1000); window.moneymaxBranchRescueV164={saveSelected:save,applyBranchCheckboxes:syncChecks,filterCurrencyRows:filterRows,isBranchAllowed:allowed};
 })();
 </script>
 

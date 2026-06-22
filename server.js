@@ -1,9 +1,11 @@
-﻿const express = require('express');
+const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
 const app = express();
 const API_URL = "https://cems.moneybox.or.kr/api/moneybox.php";
+
+app.disable('x-powered-by');
 
 const TARGET = [
   "USD","JPY","CNY","TWD","HKD","EUR","AUD",
@@ -38,12 +40,28 @@ const branches = [
   { name: "머니박스 울산", area: "울산", origin: "http://www.moneyboxulsan.com", referer: "http://www.moneyboxulsan.com/" }
 ];
 
-app.use(express.static(__dirname));
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, service: 'moneymax', time: new Date().toISOString() });
+});
+
+// 정적 서버에서 서버 소스와 배포 파일이 외부로 노출되지 않도록 차단한다.
+app.use((req, res, next) => {
+  if (/^\/(?:server\.js|package(?:-lock)?\.json|README\.md|render\.yaml|functions(?:\/|$))/i.test(req.path)) {
+    return res.status(404).end();
+  }
+  next();
+});
+
+app.use(express.static(__dirname, {
+  index: 'index.html',
+  etag: true,
+  maxAge: process.env.NODE_ENV === 'production' ? '1h' : 0
+}));
 
 
 function isBlockedText(text) {
   const s = String(text || "").replace(/\s+/g, "");
-  return ["예약불가", "예약중지", "일시중단", "거래중지", "매각중지", "수취불가", "변동성", "준비중", "중단"].some(k => s.includes(k));
+  return ["예약불가","예약중지","일시중단","거래중지","점검중","환율변동","변동성이심","준비중","중단"].some(k => s.includes(k));
 }
 
 function normalizeCurrencyUnit(currency, value) {
@@ -80,8 +98,8 @@ function num(v) {
 
 // V15.6 side registration validation
 const MANUAL_SIDE_BLOCKS = {
-  // 실제 등록은 되어 있지만 API가 마지막 값처럼 보내는 케이스 차단
-  // side: buy = 살 때 / sell = 팔 때
+  // 실제 등록이 꺼져 있는데 API에 마지막값처럼 남는 케이스 차단
+  // side: buy = 화면의 "살 때" / sell = 화면의 "팔 때"
   "머니박스 성수": {
     "MYR": ["buy"]
   }
@@ -97,7 +115,7 @@ function isDisabledValue(v) {
   if (s === "") return false;
   return [
     "0", "n", "no", "false", "off", "disabled", "disable",
-    "미등록", "미사용", "사용안함", "예약불가", "예약중지", "중지", "불가", "매각중지"
+    "미등록", "미사용", "사용안함", "예약불가", "예약중지", "중지", "불가", "점검"
   ].some(x => s === x || s.includes(x));
 }
 
@@ -119,8 +137,8 @@ function sideDisabledByRawFields(raw, side) {
   }
 
   const text = JSON.stringify(raw);
-  if (side === "buy" && /(매입|살\s*때).{0,8}(미등록|미사용|예약불가|예약중지|중지|불가|off|false)/i.test(text)) return true;
-  if (side === "sell" && /(매각|팔\s*때).{0,8}(미등록|미사용|예약불가|예약중지|중지|불가|off|false)/i.test(text)) return true;
+  if (side === "buy" && /(매입|살.?때).{0,8}(미등록|미사용|예약불가|예약중지|중지|불가|off|false)/i.test(text)) return true;
+  if (side === "sell" && /(매각|팔.?때).{0,8}(미등록|미사용|예약불가|예약중지|중지|불가|off|false)/i.test(text)) return true;
 
   return false;
 }
@@ -444,7 +462,7 @@ app.get('/api/markets', async (req,res)=>{
   const eurkrw = eurDirect || makeValue(
     usdkrw?.price && tv["FX:EURUSD"]?.price ? usdkrw.price * tv["FX:EURUSD"].price : null,
     null,
-    "USDKRW x EURUSD"
+    "USDKRW × EURUSD"
   );
 
   const cnyDirect = firstValid(investing.cnykrw, tv["FX_IDC:CNYKRW"], tv["FX:CNYKRW"]);
@@ -452,7 +470,7 @@ app.get('/api/markets', async (req,res)=>{
   const cnykrw = cnyDirect || makeValue(
     usdkrw?.price && usdcnh?.price ? usdkrw.price / usdcnh.price : null,
     null,
-    "USDKRW / USDCNH"
+    "USDKRW ÷ USDCNH"
   );
 
   const twdDirect = firstValid(investing.twdkrw, tv["FX_IDC:TWDKRW"], tv["FX:TWDKRW"]);
@@ -460,7 +478,7 @@ app.get('/api/markets', async (req,res)=>{
   const twdkrw = twdDirect || makeValue(
     usdkrw?.price && usdtwd?.price ? usdkrw.price / usdtwd.price : null,
     null,
-    "USDKRW / USDTWD"
+    "USDKRW ÷ USDTWD"
   );
 
   const hkdDirect = firstValid(investing.hkdkrw, tv["FX_IDC:HKDKRW"], tv["FX:HKDKRW"]);
@@ -468,7 +486,7 @@ app.get('/api/markets', async (req,res)=>{
   const hkdkrw = hkdDirect || makeValue(
     usdkrw?.price && usdhkd?.price ? usdkrw.price / usdhkd.price : null,
     null,
-    "USDKRW / USDHKD"
+    "USDKRW ÷ USDHKD"
   );
 
   const usdt = await safe("USDT", async () => {
@@ -518,10 +536,5 @@ app.get('/api/markets', async (req,res)=>{
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-  console.log(`MoneyMax V15.5.1 running on http://localhost:${PORT}`);
+  console.log(`MoneyMax V16.5 running on http://localhost:${PORT}`);
 });
-
-
-// V15.9.7 note: USD/KRW source mode is corrected on the frontend fetch layer when alternate Investing data is present.
-
-

@@ -1,10 +1,14 @@
 {
-  "name": "moneymax-ultimate-v13-full",
-  "version": "1.0.0",
+  "name": "moneymax-v16-5-stable",
+  "version": "16.5.0",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "check": "node --check server.js"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "axios": "^1.7.9",
