@@ -1684,17 +1684,17 @@ const selectedBranches = new Set();
 let favoriteBranches = new Set(JSON.parse(localStorage.getItem("moneyboxFavorites") || "[]"));
 
 const groups = {
-  all:["USD","JPY","CNY","TWD","HKD","EUR","AUD","SGD","CAD","GBP","THB","PHP","MYR","VND","IDR","CHF","NZD","AED"],
+  all:["USD","JPY","CNY","TWD","HKD","EUR","AUD","SGD","CAD","GBP","THB","PHP","MYR","VND","IDR","CHF","NZD","AED","RUB"],
   major:["USD","JPY","CNY","TWD","HKD","EUR"],
   asia:["SGD","THB","PHP","MYR","VND","IDR"],
-  etc:["AUD","CAD","GBP","CHF","NZD","AED"]
+  etc:["AUD","CAD","GBP","CHF","NZD","AED","RUB"]
 };
 const preferred = groups.all;
 const names = {
   USD:["us","미국 달러"], JPY:["jp","일본 엔"], CNY:["cn","중국 위안"], TWD:["tw","대만 달러"], HKD:["hk","홍콩 달러"],
   EUR:["eu","유로"], AUD:["au","호주 달러"], SGD:["sg","싱가포르 달러"], CAD:["ca","캐나다 달러"], GBP:["gb","영국 파운드"],
   THB:["th","태국 바트"], PHP:["ph","필리핀 페소"], MYR:["my","말레이시아 링깃"], VND:["vn","베트남 동"], IDR:["id","인도네시아 루피아"],
-  CHF:["ch","스위스 프랑"], NZD:["nz","뉴질랜드 달러"], AED:["ae","UAE 디르함"]
+  CHF:["ch","스위스 프랑"], NZD:["nz","뉴질랜드 달러"], AED:["ae","UAE 디르함"], RUB:["ru","러시아 루블"]
 };
 const fmt = n => n == null || Number.isNaN(Number(n)) ? "-" : Number(n).toLocaleString(undefined,{maximumFractionDigits:4});
 const clean = n => String(n).replace("머니박스 ","");

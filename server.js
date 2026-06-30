@@ -9,7 +9,7 @@ app.disable('x-powered-by');
 
 const TARGET = [
   "USD","JPY","CNY","TWD","HKD","EUR","AUD",
-  "SGD","CAD","GBP","THB","PHP","MYR","VND","IDR","CHF","NZD","AED"
+  "SGD","CAD","GBP","THB","PHP","MYR","VND","IDR","CHF","NZD","AED","RUB"
 ];
 
 const branches = [
@@ -36,7 +36,7 @@ const branches = [
   { name: "머니박스 수원", area: "수원", origin: "https://www.moneyboxsw.com", referer: "https://www.moneyboxsw.com/" },
   { name: "머니박스 마포", area: "마포", origin: "http://www.moneyboxmp.com", referer: "http://www.moneyboxmp.com/" },
   { name: "머니박스 송도", area: "송도", origin: "https://www.moneyboxsd.com", referer: "https://www.moneyboxsd.com/" },
-  { name: "머니박스 용산", area: "용산", origin: "https://www.moneyboxys.com", referer: "https://www.moneyboxys.com/" },
+  { name: "머니박스 용산", area: "용산", origin: "https://m-box.com", referer: "https://m-box.com/branch/YS1", mboxPage: "https://m-box.com/branch/YS1" },
   { name: "머니박스 울산", area: "울산", origin: "http://www.moneyboxulsan.com", referer: "http://www.moneyboxulsan.com/" }
 ];
 
@@ -84,7 +84,7 @@ function normalizeBySource(branch, currency, value) {
       if (n >= 100 && n < 1000) return n / 10;
       return n;
     }
-    const roughMax = {USD:3000,EUR:3000,AUD:3000,CAD:3000,SGD:3000,HKD:400,CNY:400,THB:100,PHP:100,MYR:1000}[currency] || 999999;
+    const roughMax = {USD:3000,EUR:3000,AUD:3000,CAD:3000,SGD:3000,HKD:400,CNY:400,THB:100,PHP:100,MYR:1000,RUB:50}[currency] || 999999;
     if (n > roughMax) return n / 100;
   }
   return n;
@@ -93,6 +93,73 @@ function normalizeBySource(branch, currency, value) {
 function num(v) {
   const n = Number(String(v ?? "").replace(/,/g, "").trim());
   return Number.isFinite(n) ? n : null;
+}
+
+
+function parseMboxBranchText(text, branch) {
+  const body = String(text || "").replace(/\s+/g, " ").trim();
+  const data = [];
+  const dateMatch = body.match(/실시간\s*환율\s*(.*?)\s*기준/);
+  const dateText = dateMatch ? dateMatch[1].trim() : new Date().toISOString().slice(0, 10);
+
+  for (const currency of TARGET) {
+    const re = new RegExp(`${currency}\\s*\\(${currency}\\)\\s*([0-9][0-9,]*(?:\\.[0-9]+)?)`, "i");
+    const m = body.match(re);
+    if (!m) continue;
+
+    let buy = normalizeCurrencyUnit(currency, num(m[1]));
+    buy = validSideRate({ buy, rowText: m[0], source: branch.mboxPage }, branch.name, currency, "buy", buy, false);
+    if (buy == null) continue;
+
+    data.push({
+      branch: branch.name,
+      area: branch.area,
+      currency,
+      buy,
+      sell: null,
+      base: null,
+      blocked: false,
+      status: "정상",
+      spread: null,
+      buyDiff: null,
+      sellDiff: null,
+      date: dateText,
+      source: branch.mboxPage,
+      type: "moneybox-mbox"
+    });
+  }
+
+  return data;
+}
+
+async function getMboxBranch(branch) {
+  if (!branch.mboxPage) return [];
+  const response = await axios.get(branch.mboxPage, {
+    timeout: 15000,
+    headers: {
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+      "User-Agent": "Mozilla/5.0"
+    }
+  });
+  const $ = cheerio.load(response.data || "");
+  const rows = parseMboxBranchText($.root().text(), branch);
+  if (!rows.length) throw new Error("M-BOX 지점 페이지 파싱 실패");
+  return rows;
+}
+
+async function getBranchSafe(branch) {
+  if (!branch.mboxPage) return getBranch(branch);
+  try {
+    const rows = await getBranch(branch);
+    const validRows = rows.filter(r => r.buy != null || r.sell != null);
+    if (validRows.length) return rows;
+    throw new Error("CEMS 용산 유효 환율 없음");
+  } catch (e) {
+    const fallback = await getMboxBranch(branch);
+    fallback._fallbackReason = e?.message || String(e);
+    return fallback;
+  }
 }
 
 
@@ -227,7 +294,7 @@ async function getJeil() {
 }
 
 app.get('/api/rates', async (req, res) => {
-  const jobs = [...branches.map(branch => ({name:branch.name, promise:getBranch(branch)})), {name:"제일환전", promise:getJeil()}];
+  const jobs = [...branches.map(branch => ({name:branch.name, promise:getBranchSafe(branch)})), {name:"제일환전", promise:getJeil()}];
   const results = await Promise.allSettled(jobs.map(j => j.promise));
   const data = [], errors = [];
   results.forEach((r,i)=> r.status === "fulfilled" ? data.push(...r.value) : errors.push(jobs[i].name + ": " + (r.reason?.message || String(r.reason))));
